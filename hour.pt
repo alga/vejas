@@ -39,7 +39,7 @@
         <img tal:attributes="src string:Rtavn${hr}5.png;
                              alt string:Temperatûra +$hr val.;
                              title string:Temperatûra +$hr val."/>
-        <img tal:attributes="src string:Rtavn${hr}5.png;
+        <img tal:attributes="src string:Rtavn${hr}4.png;
                              alt string:Krituliai +$hr val.;
                              title string:Krituliai +$hr val."/>
       </p>

@@ -56,7 +56,7 @@
                                   title string:Temperatûra +$hr val."/>
           </td>
           <td>
-             <img tal:attributes="src string:Rtavn${hr}5.png;
+             <img tal:attributes="src string:Rtavn${hr}4.png;
                                   alt string:Krituliai +$hr val.;
                                   title string:Krituliai +$hr val."/>
           </td>
