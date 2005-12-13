@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="iso-8859-13"?>
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      tal:define="data python:args[0]">
+  <head>
+    <title>Vėjai Lietuvoj</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1257"/>
+    <link rel="stylesheet" href="vejas.css"/>
+    </head>
+  <body>
+    <h1 tal:content="data/title" />
+
+    <div class="nav">
+       <a href=".">Vėjas</a>
+       <a href="temp.html">Temperatūra</a>
+       <a href="precipitation.html">Krituliai</a>
+       <a href="viskas.html">Viskas</a>
+       <a href="istorija.html">Istorija</a>
+    </div>
+
+    <p>Žemėlapiai paimti iš
+    <a href="http://www.wetterzentrale.de/topkarten/fsavneur.html">
+       WetterZentrale
+    </a>. Iškarpė ir Lietuvą užpaišė
+    <a href="mailto:alga@uosis.mif.vu.lt">Albertas Agejevas</a>.</p>
+
+    <p>Paskutinis atšviežinimas <span tal:replace="data/update"/></p>
+
+    <div class="maps" metal:define-slot="turinys">
+      ...
+    </div>
+    <a href="http://www.python.org/">
+      <img src="PythonPoweredSmall.gif" alt="Python powered!"/>
+    </a>
+  </body>
+</html>

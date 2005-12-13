@@ -1,0 +1,70 @@
+H1, H2, H3 {
+	font-family: "Verdana", sans-serif;
+	color: #044484; 
+	font-weight: bold; 
+	font-style: italic;
+}
+BODY {
+	padding: 1ex;
+	font-family: "Georgia", serif;
+	color: black; 
+	background: #eeeeee;
+}
+
+IMG  {
+	border: none;
+	margin: 2px;
+}
+
+DIV.maps {
+	background: white;
+	color: black;
+	border: 1px solid gray;
+	padding: 1ex;
+}
+
+DIV.nav {
+	border: 1px solid gray;
+	background: white;
+	color: black;
+	padding: 2px;
+}
+
+TABLE.maps {
+	border: 1px solid gray;
+	background: white;
+	color: black;
+	border-collapse: collapse;
+}
+
+TABLE.maps TD {
+	border: 1px solid gray;
+	background: white;
+	color: black;
+}
+
+TABLE.mobile {
+	border: 1px solid gray;
+	background: white;
+	color: black;
+	border-collapse: collapse;
+}
+
+TABLE.mobile TD {
+	border: 1px solid gray;
+	background: white;
+	color: black;
+}
+
+
+TR.header TD {
+	border: 1px solid gray;
+	background: #eeeeee;
+	color: black;
+}
+
+A:link { color: #044484; }
+A:active { color: #044484; }
+A:visited { color: #444444; }
+
+

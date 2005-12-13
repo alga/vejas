@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="iso-8859-13"?>
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:define="data python:args[0]">
+  <head>
+    <title>Vėjai Lietuvoj</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1257"/>
+    <style type="text/css">
+      body {font-family: tahoma, verdana, sans-serif; font-size: 9px}
+      h1 { font-size: 11px;}
+    </style>
+    </head>
+  <body>
+    <h1 tal:content="data/title" />
+
+    <p>
+      <span tal:replace="data/time"/>
+      <a href="aukst2dm.html">Aukštadv.</a>
+      <a href="back2dm.html">Bakonys</a>
+      <a href="vili2dm.html">Vilijampolė</a>
+      <a href="svent2dm.html">Šventoji</a>
+      <a href="klp2dm.html">Klaipėda</a>
+      <a href="silute2dm.html">Šilutė</a>
+    </p>
+
+    <div class="maps">
+      <table class="maps">
+        <tr tal:repeat="hr data/hours">
+          <td>
+            <a tal:attributes="href string:${hr}.html"
+               tal:content="string:+$hr h"/>
+          </td>
+          <td>
+             <img tal:attributes="src string:Rtavn${hr}9.png;
+                                  alt string:Vėjas +$hr val.;
+                                  title string:Vėjas +$hr val."/>
+          </td>
+          <td>
+             <img tal:attributes="src string:Rtavn${hr}5.png;
+                                  alt string:Temperatūra +$hr val.;
+                                  title string:Temperatūra +$hr val."/>
+          </td>
+          <td>
+             <img tal:attributes="src string:Rtavn${hr}5.png;
+                                  alt string:Krituliai +$hr val.;
+                                  title string:Krituliai +$hr val."/>
+          </td>
+        </tr>
+      </table>
+      <p><img src="scale.png" alt="Vėjas, kt" title="Vėjas, kt"/></p>
+      <p><img src="tscale.png" alt="Temperatūra, °C"
+              title="Temperatūra, °C"/></p>
+      <p><img src="pscale.png" alt="Krituliai, mm/6h"
+              title="Krituliai, mm/6h"/></p>
+    </div>
+  </body>
+</html>
