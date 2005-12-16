@@ -41,40 +41,21 @@ if __name__ == '__main__':
 
     kosis = KOSIS()
 
-    for dt, max, avg, dir in kosis.data[u'Aukðtadvaris']:
-        update("aukst-max.rrd", dt, max)
-        update("aukst-avg.rrd", dt, avg)
-        update("aukst-dir.rrd", dt, dir)
-
-    for dt, max, avg, dir in kosis.data[u'Baèkonys']:
-        update("back-max.rrd", dt, max)
-        update("back-avg.rrd", dt, avg)
-        update("back-dir.rrd", dt, dir)
-
-    for dt, max, avg, dir in kosis.data[u'Didþiulio eþ.']:
-        update("didz-max.rrd", dt, max)
-        update("didz-avg.rrd", dt, avg)
-        update("didz-dir.rrd", dt, dir)
-
-    for dt, max, avg, dir in kosis.data[u'Ðventoji']:
-        update("svent-max.rrd", dt, max)
-        update("svent-avg.rrd", dt, avg)
-        update("svent-dir.rrd", dt, dir)
-
-    for dt, max, avg, dir in kosis.data[u'Vilijampolë']:
-        update("vili-max.rrd", dt, max)
-        update("vili-avg.rrd", dt, avg)
-        update("vili-dir.rrd", dt, dir)
-
-    for dt, max, avg, dir in kosis.data[u'Ðilutë']:
-        update("silute-max.rrd", dt, max)
-        update("silute-avg.rrd", dt, avg)
-        update("silute-dir.rrd", dt, dir)
-
-    for dt, max, avg, dir in kosis.data[u'Klaipëda']:
-        update("klp-max.rrd", dt, max)
-        update("klp-avg.rrd", dt, avg)
-        update("klp-dir.rrd", dt, dir)
+    for name, prefix in [
+        (u'Aukðtadvaris', 'aukst'),
+        (u'Baèkonys', 'back'),
+        (u'Didþiulio eþ.', 'didz'),
+        (u'Ðventoji', 'svent'),
+        (u'Vilijampolë', 'vili'),
+        (u'Ðilutë', 'silute'),
+        (u'Klaipëda', 'klp')]:
+        try:
+            for dt, max, avg, dir in kosis.data[name]:
+                update("%s-max.rrd" % prefix, dt, max)
+                update("%s-avg.rrd" % prefix, dt, avg)
+                update("%s-dir.rrd" % prefix, dt, dir)
+        except KeyError:
+            pass
 
     system("sh graph.sh > /dev/null 2>&1")
 
