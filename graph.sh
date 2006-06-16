@@ -13,7 +13,7 @@ C7='#00e6f0'
 C8='#00e6a0'
 C9='#00e677'
 C10='#00e650'
-C11='#00fo28'
+C11='#00f028'
 C12='#00fa00'
 C13='#fefe00'
 C14='#fee100'
@@ -195,36 +195,40 @@ kryptis () {
         LINE2:dirv$V:V \
         LINE2:dirsv$SV:SV
 }
-
-vejas aukst2d.png 2 400 200 "KOSIS: Aukstadvaris (2 d.)"    aukst
-vejas aukst2s.png 14 675 200 "KOSIS: Aukstadvaris (2 sav.)" aukst
-
-vejas back2d.png 2 400 200 "KOSIS: Backonys (2 d.)"    back
-vejas back2s.png 14 675 200 "KOSIS: Backonys (2 sav.)" back
-
-vejas didz2d.png 2 400 200 "KOSIS: Didziulio ez. (2 d.)"    didz
-vejas didz2s.png 14 675 200 "KOSIS: Didziulio ez. (2 sav.)" didz
-
-vejas svent2d.png 2 400 200 "KOSIS: Sventoji (2 d.)"    svent
-vejas svent2s.png 14 675 200 "KOSIS: Sventoji (2 sav.)" svent
-
-vejas vili2d.png 2 400 200 "KOSIS: Vilijampole (2 d.)"    vili
-vejas vili2s.png 14 675 200 "KOSIS: Vilijampole (2 sav.)" vili
-
-vejas silute2d.png 2 400 200 "KOSIS: Silute (2 d.)"    silute
-vejas silute2s.png 14 675 200 "KOSIS: Silute (2 sav.)" silute
-
-vejas klp2d.png 2 400 200 "KOSIS: Klaipeda (2 d.)"    klp
-vejas klp2s.png 14 675 200 "KOSIS: Klaipeda (2 sav.)" klp
-
-# Delninis formatas
-vejas aukst2dm.png 2 150 100 "KOSIS: Aukstadvaris (2 d.)"    aukst
-vejas back2dm.png 2 150 100 "KOSIS: Backonys (2 d.)"    back
-vejas didz2dm.png 2 150 100 "KOSIS: Didziulio ez. (2 d.)"    didz
-vejas svent2dm.png 2 150 100 "KOSIS: Sventoji (2 d.)"    svent
-vejas vili2dm.png 2 150 100 "KOSIS: Vilijampole (2 d.)"    vili
-vejas silute2dm.png 2 150 100 "KOSIS: Silute (2 d.)"    silute
-vejas klaipeda2dm.png 2 150 100 "KOSIS: Klaipeda (2 d.)"    klp
+# 
+# vejas aukst2d.png 2 400 200 "KOSIS: Aukstadvaris (2 d.)"    aukst
+# vejas aukst2s.png 14 675 200 "KOSIS: Aukstadvaris (2 sav.)" aukst
+# 
+# vejas back2d.png 2 400 200 "KOSIS: Backonys (2 d.)"    back
+# vejas back2s.png 14 675 200 "KOSIS: Backonys (2 sav.)" back
+# 
+# vejas didz2d.png 2 400 200 "KOSIS: Didziulio ez. (2 d.)"    didz
+# vejas didz2s.png 14 675 200 "KOSIS: Didziulio ez. (2 sav.)" didz
+# 
+# vejas svent2d.png 2 400 200 "KOSIS: Sventoji (2 d.)"    svent
+# vejas svent2s.png 14 675 200 "KOSIS: Sventoji (2 sav.)" svent
+# 
+# vejas vili2d.png 2 400 200 "KOSIS: Vilijampole (2 d.)"    vili
+# vejas vili2s.png 14 675 200 "KOSIS: Vilijampole (2 sav.)" vili
+# 
+# vejas silute2d.png 2 400 200 "KOSIS: Silute (2 d.)"    silute
+# vejas silute2s.png 14 675 200 "KOSIS: Silute (2 sav.)" silute
+# 
+# vejas klp2d.png 2 400 200 "KOSIS: Klaipeda (2 d.)"    klp
+# vejas klp2s.png 14 675 200 "KOSIS: Klaipeda (2 sav.)" klp
+# 
+# # Delninis formatas
+# vejas aukst2dm.png 2 150 100 "KOSIS: Aukstadvaris (2 d.)"    aukst
+# vejas back2dm.png 2 150 100 "KOSIS: Backonys (2 d.)"    back
+# vejas didz2dm.png 2 150 100 "KOSIS: Didziulio ez. (2 d.)"    didz
+# vejas svent2dm.png 2 150 100 "KOSIS: Sventoji (2 d.)"    svent
+# vejas vili2dm.png 2 150 100 "KOSIS: Vilijampole (2 d.)"    vili
+# vejas silute2dm.png 2 150 100 "KOSIS: Silute (2 d.)"    silute
+# vejas klaipeda2dm.png 2 150 100 "KOSIS: Klaipeda (2 d.)"    klp
+# 
+# VG grafikas
+vejas aukstvg.png 2 115 80 "Aukstadvaris" aukst
+mogrify -crop 151x105+40+25 aukstvg.png
 
 # Do the  wireless thing, too!
 exec ./wbmp.sh
