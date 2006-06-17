@@ -1,7 +1,7 @@
 #!/usr/bin/python
-# -*- coding: iso-8859-13 -*-
+# -*- coding: utf-8 -*-
 '''
-     Informacijos iğ KOSIS sudëjimas á RRD
+     Informacijos iÅ¡ KOSIS sudÄ—jimas Ä¯ RRD
      Copyright (C) 2002 Albertas Agejevas
 
      This program is free software; you can redistribute it and/or
@@ -37,25 +37,53 @@ def update(db, tstamp, value):
         system(cmdline)
 
 
+def vg_text(kosis):
+    readouts = [(r.timestamp, r) for r in kosis.data[u'AukÅ¡tadvaris']]
+    readouts.sort()
+    d = readouts[-1][1]
+
+    out = file("vgmeteo.html", "w")
+
+    e = lambda s: s.encode("windows-1257")
+    print >> out, e(u"<h3>%s</h3>" % d.name)
+    print >> out, e(u"<img src='http://sraige.mif.vu.lt/vejas/aukstvg.png' alt=''>")
+    print >> out, e(u"<table>")
+    print >> out, e(u" <tr><th>Vid. vÄ—jo greitis</th><td>%.0f m/s</td></tr>"
+                    % d.avg)
+    print >> out, e(u" <tr><th>Maks. vÄ—jo greitis</th><td>%.0f m/s</td></tr>"
+                    % d.max)
+    print >> out, e(u" <tr><th>VÄ—jo kryptis</th><td>%s</td></tr>" % d.dir_txt)
+    print >> out, e(u" <tr><th>Oro temperatÅ«ra</th><td>%s&deg;C</td></tr>" % d.temp)
+    print >> out, e(u" <tr><th>Rasos taÅ¡kas</th><td>%s&deg;C</td></tr>" % d.dew)
+    print >> out, e(u" <tr><th>KrituliÅ³ tipas</th><td>%s</td></tr>"
+                   % d.precipitation_type)
+    print >> out, e(u" <tr><th>KrituliÅ³ kiekis</th><td>%s mm</td></tr>"
+                   % d.precipitation)
+    print >> out, e(u"</table>")
+
+
+
 if __name__ == '__main__':
 
     kosis = KOSIS()
 
     for name, prefix in [
-        (u'Aukğtadvaris', 'aukst'),
-        (u'Baèkonys', 'back'),
-        (u'Didşiulio eş.', 'didz'),
-        (u'Ğventoji', 'svent'),
-        (u'Vilijampolë', 'vili'),
-        (u'Ğilutë', 'silute'),
-        (u'Klaipëda', 'klp')]:
+        (u'AukÅ¡tadvaris', 'aukst'),
+        (u'BaÄkonys', 'back'),
+        (u'DidÅ¾iulio eÃ¾.', 'didz'),
+        (u'Å ventoji', 'svent'),
+        (u'VilijampolÄ—', 'vili'),
+        (u'Å ilutÄ—', 'silute'),
+        (u'KlaipÄ—da', 'klp')]:
         try:
-            for dt, max, avg, dir in kosis.data[name]:
-                update("%s-max.rrd" % prefix, dt, max)
-                update("%s-avg.rrd" % prefix, dt, avg)
-                update("%s-dir.rrd" % prefix, dt, dir)
+            for readout in kosis.data[name]:
+                update("%s-max.rrd" % prefix, readout.timestamp, readout.max)
+                update("%s-avg.rrd" % prefix, readout.timestamp, readout.avg)
+                update("%s-dir.rrd" % prefix, readout.timestamp, readout.dir)
         except KeyError:
             pass
 
     system("sh graph.sh > /dev/null 2>&1")
+
+    vg_text(kosis)
 

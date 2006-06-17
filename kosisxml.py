@@ -25,39 +25,71 @@ from pprint import pprint
 class KOSIS(object):
     url = "http://www.lra.lt/maps/getxml.php?xml=weather_lt"
 
-    deg = {u'Ð': 0,   u'ÐR': 45, u'R': 90, u'PR': 135,
-           u'P': 180, u'PV': 225, u'V': 270, u'ÐV': 315, u'-': 0}
-
     def __init__(self):
         doc = urllib.urlopen(self.url).read()
         tree = cElementTree.fromstring(doc)
 
         self.data = {}
         for item in tree.findall("weather/item"):
-            timestamp = datetime.datetime.now()
-            try:
-                datestr, timestr = item.find('time').text.split()
-                month, day = map(int, datestr.split('-'))
-                hour, minute = map(int, timestr.split(":"))
-            except (ValueError, TypeError):
-                pass
-            else:
-                timestamp = timestamp.replace(month=month, day=day,
-                                              hour=hour, minute=minute,
-                                              second=0, microsecond=0)
+            readout = Readout(item)
+            if readout.timestamp:
+                if readout.name not in self.data:
+                    self.data[readout.name] = []
+                self.data[readout.name].append(readout)
 
-                name = item.find('name').text
-                max = float(item.find('wind_speed_max').text)
-                avg = float(item.find('wind_speed_avg').text)
-                dir_txt = item.find('wind_direction').text
-                dird = self.deg[dir_txt]
-                if name not in self.data:
-                    self.data[name] = []
-                self.data[name].append((timestamp, max, avg, dird))
+
+class Readout(object):
+    """An object that represents a single readout from a weather station"""
+
+    deg = {u'Ð': 0,   u'ÐR': 45, u'R': 90, u'PR': 135,
+           u'P': 180, u'PV': 225, u'V': 270, u'ÐV': 315, u'-': 0}
+
+    def __init__(self, node):
+        self.name = node.find('name').text
+        self.timestamp = self.parsetime(node.find('time').text)
+        self.max = float(node.find('wind_speed_max').text)
+        self.avg = float(node.find('wind_speed_avg').text)
+        self.dir_txt = node.find('wind_direction').text
+        self.dir = self.deg[self.dir_txt]
+        self.precipitation = float(node.find('krit_kiekis').text)
+        self.precipitation_type = node.find('krit_tipas').text
+        self.temp = float(node.find('air_temp').text.replace(",", "."))
+        self.dew = float(node.find('rasos_temp').text.replace(",", "."))
+
+    def parsetime(self, datetimestr):
+        try:
+            datestr, timestr = datetimestr.split()
+            month, day = map(int, datestr.split('-'))
+            hour, minute = map(int, timestr.split(":"))
+        except (ValueError, TypeError):
+            return None
+        timestamp = datetime.datetime.now()
+        timestamp = timestamp.replace(month=month, day=day,
+                                      hour=hour, minute=minute,
+                                      second=0, microsecond=0)
+        return guess_year(timestamp)
+
+    def __repr__(self):
+        return "Readout(%r, %s, %r, %r, %r)" % (self.name, self.timestamp,
+                                                self.avg, self.max, self.dir)
+
+
+def guess_year(dt):
+    """Chooses the year of the datetime to be closest to current moment"""
+    choices = []
+    now = datetime.datetime.now()
+    choices.append((abs(dt - now), dt))
+    dt1 = dt.replace(year=dt.year - 1)
+    choices.append((abs(dt1 - now), dt1))
+    dt2 = dt.replace(year=dt.year + 1)
+    choices.append((abs(dt2 - now), dt2))
+    choices.sort()
+    return choices[0][1]
+
 
 if __name__ == '__main__':
 
     k = KOSIS()
     for st in k.data:
-        for dt, max, avg, dir in k.data[st]:
-            print dt, max, avg, dir, st
+        for datum in k.data[st]:
+            print repr(datum)
