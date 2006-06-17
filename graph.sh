@@ -226,7 +226,7 @@ vejas vili2dm.png 2 150 100 "KOSIS: Vilijampole (2 d.)"    vili
 vejas silute2dm.png 2 150 100 "KOSIS: Silute (2 d.)"    silute
 vejas klaipeda2dm.png 2 150 100 "KOSIS: Klaipeda (2 d.)"    klp
 
-VG grafikas
+# VG grafikas
 vejas aukstvg.png 2 115 80 "Aukstadvaris" aukst
 mogrify -crop 151x105+40+25 aukstvg.png
 
