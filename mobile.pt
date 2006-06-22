@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="iso-8859-13"?>
+<?xml version="1.0" encoding="utf-8"?>
 <html xmlns:tal="http://xml.zope.org/namespaces/tal"
       tal:define="data python:args[0]">
   <head>
-    <title>Vėjai Lietuvoj</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=windows-1257"/>
+    <title>VÄjai Lietuvoj</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style type="text/css">
       body {font-family: tahoma, verdana, sans-serif; font-size: 9px}
       h1 { font-size: 11px;}
@@ -14,12 +14,12 @@
 
     <p>
       <span tal:replace="data/time"/>
-      <a href="aukst2dm.html">Aukštadv.</a>
+      <a href="aukst2dm.html">AukÅ”tadv.</a>
       <a href="back2dm.html">Bakonys</a>
-      <a href="vili2dm.html">Vilijampolė</a>
-      <a href="svent2dm.html">Šventoji</a>
-      <a href="klp2dm.html">Klaipėda</a>
-      <a href="silute2dm.html">Šilutė</a>
+      <a href="vili2dm.html">VilijampolÄ</a>
+      <a href="svent2dm.html">Å ventoji</a>
+      <a href="klp2dm.html">KlaipÄda</a>
+      <a href="silute2dm.html">Å ilutÄ</a>
     </p>
 
     <div class="maps">
@@ -31,13 +31,13 @@
           </td>
           <td>
              <img tal:attributes="src string:Rtavn${hr}9.png;
-                                  alt string:Vėjas +$hr val.;
-                                  title string:Vėjas +$hr val."/>
+                                  alt string:VÄjas +$hr val.;
+                                  title string:VÄjas +$hr val."/>
           </td>
           <td>
              <img tal:attributes="src string:Rtavn${hr}5.png;
-                                  alt string:Temperatūra +$hr val.;
-                                  title string:Temperatūra +$hr val."/>
+                                  alt string:TemperatÅ«ra +$hr val.;
+                                  title string:TemperatÅ«ra +$hr val."/>
           </td>
           <td>
              <img tal:attributes="src string:Rtavn${hr}4.png;
@@ -46,9 +46,9 @@
           </td>
         </tr>
       </table>
-      <p><img src="scale.png" alt="Vėjas, kt" title="Vėjas, kt"/></p>
-      <p><img src="tscale.png" alt="Temperatūra, °C"
-              title="Temperatūra, °C"/></p>
+      <p><img src="scale.png" alt="VÄjas, kt" title="VÄjas, kt"/></p>
+      <p><img src="tscale.png" alt="TemperatÅ«ra, Ā°C"
+              title="TemperatÅ«ra, Ā°C"/></p>
       <p><img src="pscale.png" alt="Krituliai, mm/6h"
               title="Krituliai, mm/6h"/></p>
     </div>

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-13 -*-
+# -*- coding: utf-8 -*-
 """
   muller.py
 
@@ -26,7 +26,7 @@ def rect(x, y, w, h):
 
 
 class WindPicture:
-    """Vëjo paveiksliuko gavimas/apdorojimas"""
+    """VÄ—jo paveiksliuko gavimas/apdorojimas"""
 
     url = "http://www.wetterzentrale.de/pics/Rtavn%s9.png"
     maskName = os.path.join(dirname, "crop-map.png")
@@ -48,30 +48,29 @@ class WindPicture:
         if type(file) == type(""):
             file = open(file)
         self.pic = Image.open(file)
-        self.mask = Image.open(self.maskName)
+        #self.mask = Image.open(self.maskName)
 
     def getMap(self):
-        "Iðkerpa reikalingà gabalà ir uþpaiðo Lietuvà"
-        mask = self.mask
+        "IÅ¡kerpa reikalingÄ… gabalÄ… ir uÅ¾paiÅ¡o LietuvÄ…"
         map = self.pic.crop(self.map)
         map = map.convert("RGB")
-        map.paste(mask, self.mapoffset, mask)
+        #map.paste(self.mask, self.mapoffset, self.mask)
         return  map
 
     def getDate(self):
-        "Iðkerpa datà"
+        "IÅ¡kerpa datÄ…"
         pic = self.pic.crop(self.date)
         pic = pic.convert("RGB").resize(self.newDate, Image.BICUBIC)
         return pic
 
     def getFullScale(self):
-        "Iðkerpa skalæ"
+        "IÅ¡kerpa skalÄ™"
         scale = self.pic.crop(self.scale)
         scale = scale.rotate(90)
         return scale
 
     def compose(self):
-        "Sudeda þemëlapá ir datà"
+        "Sudeda Å¾emÄ—lapÄ¯ ir datÄ…"
         map = self.getMap()
         date = self.getDate()
 
@@ -81,11 +80,11 @@ class WindPicture:
         return canvas
 
     def empty(self):
-        "Nupaiðom baltà tuðèià paveiksliukà"
+        "NupaiÅ¡om baltÄ… tuÅ¡ÄiÄ… paveiksliukÄ…"
         return Image.new("RGB", self.canvasSize, (255, 255, 255))
 
 class PrecipitationPicture(WindPicture):
-    """Krituliø paveiksliuko gavimas/aprodojimas"""
+    """KrituliÅ³ paveiksliuko gavimas/aprodojimas"""
 
     url = "http://www.wetterzentrale.de/pics/Rtavn%s4.png"
     maskName = "crop-map-small.png"
@@ -100,7 +99,7 @@ class PrecipitationPicture(WindPicture):
 
 
 class TempPicture(PrecipitationPicture):
-    """Temperatûros paveiksliuko gavimas/apdorojimas"""
+    """TemperatÅ«ros paveiksliuko gavimas/apdorojimas"""
 
 
     url = "http://www.wetterzentrale.de/pics/Rtavn%s5.png"
@@ -109,7 +108,7 @@ class TempPicture(PrecipitationPicture):
 hours = ["%02d" % i for i in range(0, 164, 6)]
 
 def generate():
-    """Susiurbia ir iðkarpo visus paveiksliukus"""
+    """Susiurbia ir iÅ¡karpo visus paveiksliukus"""
 
     for hr in hours:
         pic = WindPicture(hr)
@@ -130,7 +129,7 @@ def generate():
         pic.compose().save(os.path.join(dirname, "Rtavn%s4.png" % hr))
         if hr == '06':
             pic.getFullScale().save(os.path.join(dirname, "pscale.png"))
-            # Miuleris neduoda 00, pakeièiam tuðèiu
+            # Miuleris neduoda 00, pakeiÄiam tuÅ¡Äiu
             pic.empty().save(os.path.join(dirname, "Rtavn004.png"))
 
 
@@ -139,46 +138,46 @@ def tstamp():
 
 
 def makeIndex(filename, **kw):
-    """Vëjo, temperatûros ir krituliø indeksai"""
+    """VÄ—jo, temperatÅ«ros ir krituliÅ³ indeksai"""
     template = PageTemplateFile(os.path.join(dirname, 'index.pt'))
     index = open(os.path.join(outputdir, filename), "w")
     kw['hours'] = hours
     kw['time'] = tstamp()
     if 'extra' not in kw:
         kw['extra'] = ''
-    index.write(template(kw).encode('iso-8859-13'))
+    index.write(template(kw).encode('utf-8'))
     index.close()
 
 
 def tableIndex(extra='', **kw):
-    """Padaro HTML indeksà su visos savaitës visais paveiksliukais
-    lentelëje"""
+    """Padaro HTML indeksÄ… su visos savaitÄ—s visais paveiksliukais
+    lentelÄ—je"""
     template = PageTemplateFile(os.path.join(dirname, 'tabindex.pt'))
     index = open(os.path.join(outputdir, 'viskas.html'), "w")
     kw['hours'] = hours
-    kw['title'] = u'Vëjas, temperatûra, krituliai'
+    kw['title'] = u'VÄ—jas, temperatÅ«ra, krituliai'
     kw['time'] = tstamp()
-    index.write(template(kw).encode('iso-8859-13'))
+    index.write(template(kw).encode('utf-8'))
     index.close()
 
 def hourIndexes():
-    """Kiekvienos valandos indeksai su 3 þemëlapiais"""
+    """Kiekvienos valandos indeksai su 3 Å¾emÄ—lapiais"""
     template = PageTemplateFile(os.path.join(dirname, 'hour.pt'))
     for hr in hours:
         index = open(os.path.join(outputdir, "%s.html" % hr), "w")
         result = template({'title': '+%s h' % hr, 'hr': hr, 'time': tstamp()})
-        index.write(result.encode('iso-8859-13'))
+        index.write(result.encode('utf-8'))
         index.close()
 
 def mobileIndex(extra='', **kw):
-    """Padaro HTML indeksà su visos savaitës visais paveiksliukais
-    lentelëje"""
+    """Padaro HTML indeksÄ… su visos savaitÄ—s visais paveiksliukais
+    lentelÄ—je"""
     template = PageTemplateFile(os.path.join(dirname, 'mobile.pt'))
     index = open(os.path.join(outputdir, 'delninis.html'), "w")
     kw['hours'] = hours
-    kw['title'] = u'Vëjas, temperatûra, krituliai'
+    kw['title'] = u'VÄ—jas, temperatÅ«ra, krituliai'
     kw['time'] = tstamp()
-    index.write(template(kw).encode('iso-8859-13'))
+    index.write(template(kw).encode('utf-8'))
     index.close()
 
     for name in ('back2dm', 'aukst2dm', 'didz2dm', 'svent2dm', 'vili2dm',
@@ -201,7 +200,7 @@ def istorijaIndex():
     result = template({'stoteles': ['aukst', 'back', 'didz', 'vili',
                                     'svent', 'silute', 'klp'],
                        'title': 'KOSIS istorija'})
-    index.write(result.encode('iso-8859-13'))
+    index.write(result.encode('utf-8'))
     index.close()
 
 def main(args):
@@ -216,9 +215,9 @@ def main(args):
                            title="KOSIS istorija"></p>'''
 
     makeIndex(filename="index.html", picfmt="Rtavn%s9.png",
-              title=u"Vëjas", scale="scale.png", extra=extra)
+              title=u"VÄ—jas", scale="scale.png", extra=extra)
     makeIndex(filename="temp.html", picfmt="Rtavn%s5.png",
-              title=u"Temperatûra", scale="tscale.png")
+              title=u"TemperatÅ«ra", scale="tscale.png")
     makeIndex(filename="precipitation.html", picfmt="Rtavn%s4.png",
               title="Krituliai", scale="pscale.png")
     hourIndexes()

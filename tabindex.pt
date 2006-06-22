@@ -1,43 +1,43 @@
-<?xml version="1.0" encoding="iso-8859-13"?>
+<?xml version="1.0" encoding="utf-8"?>
 <html xmlns:tal="http://xml.zope.org/namespaces/tal"
       tal:define="data python:args[0]">
   <head>
-    <title>Vėjai Lietuvoj</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=windows-1257"/>
+    <title>VÄjai Lietuvoj</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="vejas.css"/>
     </head>
   <body>
     <h1 tal:content="data/title" />
 
     <div class="nav">
-       <a href=".">Vėjas</a>
-       <a href="temp.html">Temperatūra</a>
+       <a href=".">VÄjas</a>
+       <a href="temp.html">TemperatÅ«ra</a>
        <a href="precipitation.html">Krituliai</a>
        <a href="viskas.html">Viskas</a>
        <a href="istorija.html">Istorija</a>
     </div>
 
-    <p>Žemėlapiai paimti iš 
+    <p>Å½emÄlapiai paimti iÅ” 
     <a href="http://www.wetterzentrale.de/topkarten/fsavneur.html">
        WetterZentrale
-    </a>. Iškarpė ir Lietuvą užpaišė
+    </a>. IÅ”karpÄ
     <a href="mailto:alga@uosis.mif.vu.lt">Albertas Agejevas</a>.</p>
 
-    <p>Paskutinis atšviežinimas <span tal:replace="data/time"/>
+    <p>Paskutinis atÅ”vieÅ¾inimas <span tal:replace="data/time"/>
        Vilniaus laiku.</p>
 
     <div class="maps">
-      <p><img src="scale.png" alt="Vėjas, kt" title="Vėjas, kt"/></p>
-      <p><img src="tscale.png" alt="Temperatūra, °C"
-              title="Temperatūra, °C"/></p>
+      <p><img src="scale.png" alt="VÄjas, kt" title="VÄjas, kt"/></p>
+      <p><img src="tscale.png" alt="TemperatÅ«ra, Ā°C"
+              title="TemperatÅ«ra, Ā°C"/></p>
       <p><img src="pscale.png" alt="Krituliai, mm/6h"
               title="Krituliai, mm/6h"/></p>
 
       <table class="maps">
         <tr class="header">
           <td>Laikas, h</td>
-          <td>Vėjas, kt</td>
-          <td>Temperatūra, °C</td>
+          <td>VÄjas, kt</td>
+          <td>TemperatÅ«ra, Ā°C</td>
           <td>Krituliai, mm/6h</td>
         </tr>
         <tr tal:repeat="hr data/hours">
@@ -47,13 +47,13 @@
           </td>
           <td>
              <img tal:attributes="src string:Rtavn${hr}9.png;
-                                  alt string:Vėjas +$hr val.;
-                                  title string:Vėjas +$hr val."/>
+                                  alt string:VÄjas +$hr val.;
+                                  title string:VÄjas +$hr val."/>
           </td>
           <td>
              <img tal:attributes="src string:Rtavn${hr}5.png;
-                                  alt string:Temperatūra +$hr val.;
-                                  title string:Temperatūra +$hr val."/>
+                                  alt string:TemperatÅ«ra +$hr val.;
+                                  title string:TemperatÅ«ra +$hr val."/>
           </td>
           <td>
              <img tal:attributes="src string:Rtavn${hr}4.png;
