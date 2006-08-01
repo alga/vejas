@@ -139,7 +139,7 @@ def tstamp():
 
 def makeIndex(filename, **kw):
     """Vėjo, temperatūros ir kritulių indeksai"""
-    template = PageTemplateFile(os.path.join(dirname, 'index.pt'))
+    template = PageTemplateFile(os.path.join(dirname, 'pt', 'index.pt'))
     index = open(os.path.join(outputdir, filename), "w")
     kw['hours'] = hours
     kw['time'] = tstamp()
@@ -152,7 +152,7 @@ def makeIndex(filename, **kw):
 def tableIndex(extra='', **kw):
     """Padaro HTML indeksą su visos savaitės visais paveiksliukais
     lentelėje"""
-    template = PageTemplateFile(os.path.join(dirname, 'tabindex.pt'))
+    template = PageTemplateFile(os.path.join(dirname, 'pt', 'tabindex.pt'))
     index = open(os.path.join(outputdir, 'viskas.html'), "w")
     kw['hours'] = hours
     kw['title'] = u'Vėjas, temperatūra, krituliai'
@@ -162,7 +162,7 @@ def tableIndex(extra='', **kw):
 
 def hourIndexes():
     """Kiekvienos valandos indeksai su 3 žemėlapiais"""
-    template = PageTemplateFile(os.path.join(dirname, 'hour.pt'))
+    template = PageTemplateFile(os.path.join(dirname, 'pt, 'hour.pt'))
     for hr in hours:
         index = open(os.path.join(outputdir, "%s.html" % hr), "w")
         result = template({'title': '+%s h' % hr, 'hr': hr, 'time': tstamp()})
@@ -172,7 +172,7 @@ def hourIndexes():
 def mobileIndex(extra='', **kw):
     """Padaro HTML indeksą su visos savaitės visais paveiksliukais
     lentelėje"""
-    template = PageTemplateFile(os.path.join(dirname, 'mobile.pt'))
+    template = PageTemplateFile(os.path.join(dirname, 'pt', 'mobile.pt'))
     index = open(os.path.join(outputdir, 'delninis.html'), "w")
     kw['hours'] = hours
     kw['title'] = u'Vėjas, temperatūra, krituliai'
@@ -195,7 +195,7 @@ def mobileIndex(extra='', **kw):
 def istorijaIndex():
     """Padaro HTML su KOSIS RRD grafikais."""
 
-    template = PageTemplateFile(os.path.join(dirname, 'istorija.pt'))
+    template = PageTemplateFile(os.path.join(dirname, 'pt', 'istorija.pt'))
     index = open(os.path.join(outputdir, "istorija.html"), "w")
     result = template({'stoteles': ['aukst', 'back', 'didz', 'vili',
                                     'svent', 'silute', 'klp'],
