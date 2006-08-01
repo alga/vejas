@@ -17,10 +17,16 @@
      $Id: update.py,v 1.7 2005/07/19 10:40:28 alga Exp $
 '''
 
-import time
+import sys
 from os import system, popen
+import os.path
+import time
 
 from kosisxml import KOSIS
+
+
+outputdir = "."
+
 
 def update(db, tstamp, value):
     """Update RRD database db with value at a given time.
@@ -29,6 +35,7 @@ def update(db, tstamp, value):
     update time.
     """
 
+    db = os.path.join(outputdir, db)
     timestamp = time.mktime(tstamp.timetuple())
     last = int(popen("rrdtool last %s" % db).read())
 
@@ -44,7 +51,7 @@ def vg_text(kosis):
     readouts.sort()
     d = readouts[-1][1]
 
-    out = file("vgmeteo.html", "w")
+    out = file(os.path.join(outputdir, "vgmeteo.html"), "w")
 
     e = lambda s: s.encode("windows-1257")
     print >> out, e(u"<h3>%s</h3>" % d.name)
@@ -65,8 +72,11 @@ def vg_text(kosis):
     print >> out, e(u"</table>")
 
 
+def main(args):
 
-if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        global outputdir
+        outputdir = sys.argv[1]
 
     kosis = KOSIS()
 
@@ -86,7 +96,10 @@ if __name__ == '__main__':
         except KeyError:
             pass
 
-    system("sh graph.sh > /dev/null 2>&1")
+    system("sh graph.sh %s > /dev/null 2>&1 " % outputdir)
 
     vg_text(kosis)
 
+
+if __name__ == '__main__':
+    main(sys.argv)

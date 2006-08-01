@@ -1,5 +1,7 @@
 #!/bin/sh
 
+OUT=${1:-.}
+
 vejas () {
     orig=$1
     filename=wap-$1
@@ -8,19 +10,19 @@ vejas () {
     title=$4
     db=$5
 
-    rrdtool graph $filename \
+    rrdtool graph $OUT/$filename \
 	-h 50 -w $width -l 0 -s -$time \
 	-c BACK#ffffff -c CANVAS#ffffff -c GRID#000000 \
 	-c MGRID#000000 -c ARROW#000000 \
 	-g \
-	DEF:max=$db-max.rrd:max:MAX \
-	DEF:avg=$db-avg.rrd:avg:AVERAGE  \
-	DEF:dir=$db-dir.rrd:dir:AVERAGE \
+	DEF:max=$OUT/$db-max.rrd:max:MAX \
+	DEF:avg=$OUT/$db-avg.rrd:avg:AVERAGE  \
+	DEF:dir=$OUT/$db-dir.rrd:dir:AVERAGE \
 	LINE1:max#000000: \
 	AREA:avg#000000:
 
-    mogrify -crop 96x60+58+11 $filename
-    convert $filename ${orig%.png}.wbmp
+    mogrify -crop 96x60+58+11 $OUT/$filename
+    convert $OUT/$filename $OUT/${orig%.png}.wbmp
 }
 
 

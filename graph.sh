@@ -41,12 +41,12 @@ vejas () {
     title=$5
     db=$6
 
-    rrdtool graph $filename \
+    rrdtool graph $OUT/$filename \
 	-v 'Vejas, m/s'  \
 	-h $height -w $width -l 0 -s -$time -t "$title" \
-	DEF:max=$db-max.rrd:max:MAX \
-	DEF:avg=$db-avg.rrd:avg:AVERAGE  \
-	DEF:dir=$db-dir.rrd:dir:AVERAGE \
+	DEF:max=$OUT/$db-max.rrd:max:MAX \
+	DEF:avg=$OUT/$db-avg.rrd:avg:AVERAGE  \
+	DEF:dir=$OUT/$db-dir.rrd:dir:AVERAGE \
 	CDEF:background=dir,POP,TIME,14400,%,7200,LT,INF,UNKN,IF \
 	CDEF:avg1=avg,1,LT,avg,UNKN,IF \
 	CDEF:avg2=avg,2,LT,avg,UNKN,IF \
@@ -168,13 +168,13 @@ vejas () {
 }
 
 kryptis () {
-    rrdtool graph kryptis.png \
+    rrdtool graph $OUT/kryptis.png \
         -v 'Vejas, kryptis' "$@" \
         -h 100 -w 400 \
         -l 0 -u 360 -r \
         -y 45:2  \
         -s -200000 -t "KOSIS: Aukstadvaris" \
-        DEF:dir=aukst-dir.rrd:dir:AVERAGE \
+        DEF:dir=$OUT/aukst-dir.rrd:dir:AVERAGE \
         CDEF:dirs2=dir,360,LE,dir,UNKN,IF \
         CDEF:dirs=dir,0,GT,dir,UNKN,IF \
         CDEF:dirsr=dir,22.5,GT,dir,UNKN,IF \
@@ -195,6 +195,8 @@ kryptis () {
         LINE2:dirv$V:V \
         LINE2:dirsv$SV:SV
 }
+
+OUT=${1:-.}
 
 vejas aukst2d.png 2 400 200 "KOSIS: Aukstadvaris (2 d.)"    aukst
 vejas aukst2s.png 14 675 200 "KOSIS: Aukstadvaris (2 sav.)" aukst
@@ -228,7 +230,7 @@ vejas klaipeda2dm.png 2 150 100 "KOSIS: Klaipeda (2 d.)"    klp
 
 # VG grafikas
 vejas aukstvg.png 2 115 80 "Aukstadvaris" aukst
-mogrify -crop 151x105+40+25 aukstvg.png
+mogrify -crop 151x105+40+25 $OUT/aukstvg.png
 
 # Do the  wireless thing, too!
-exec ./wbmp.sh
+exec ./wbmp.sh $OUT

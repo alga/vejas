@@ -112,25 +112,25 @@ def generate():
 
     for hr in hours:
         pic = WindPicture(hr)
-        pic.compose().save(os.path.join(dirname, "Rtavn%s9.png" % hr))
+        pic.compose().save(os.path.join(outputdir, "Rtavn%s9.png" % hr))
         if hr == '00':
-            pic.getFullScale().save(os.path.join(dirname, "scale.png"))
+            pic.getFullScale().save(os.path.join(outputdir, "scale.png"))
 
     for hr in hours:
         pic = TempPicture(hr)
-        pic.compose().save(os.path.join(dirname, "Rtavn%s5.png" % hr))
+        pic.compose().save(os.path.join(outputdir, "Rtavn%s5.png" % hr))
         if hr == '00':
-            pic.getFullScale().save(os.path.join(dirname, "tscale.png"))
+            pic.getFullScale().save(os.path.join(outputdir, "tscale.png"))
 
     for hr in hours:
         if hr == '00':
             continue
         pic = PrecipitationPicture(hr)
-        pic.compose().save(os.path.join(dirname, "Rtavn%s4.png" % hr))
+        pic.compose().save(os.path.join(outputdir, "Rtavn%s4.png" % hr))
         if hr == '06':
-            pic.getFullScale().save(os.path.join(dirname, "pscale.png"))
+            pic.getFullScale().save(os.path.join(outputdir, "pscale.png"))
             # Miuleris neduoda 00, pakeičiam tuščiu
-            pic.empty().save(os.path.join(dirname, "Rtavn004.png"))
+            pic.empty().save(os.path.join(outputdir, "Rtavn004.png"))
 
 
 def tstamp():
@@ -162,7 +162,7 @@ def tableIndex(extra='', **kw):
 
 def hourIndexes():
     """Kiekvienos valandos indeksai su 3 žemėlapiais"""
-    template = PageTemplateFile(os.path.join(dirname, 'pt, 'hour.pt'))
+    template = PageTemplateFile(os.path.join(dirname, 'pt', 'hour.pt'))
     for hr in hours:
         index = open(os.path.join(outputdir, "%s.html" % hr), "w")
         result = template({'title': '+%s h' % hr, 'hr': hr, 'time': tstamp()})
