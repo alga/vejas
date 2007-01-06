@@ -26,13 +26,19 @@
     <p>Paskutinis atšviežinimas <span tal:replace="data/time"/>
        Vilniaus laiku.</p>
 
+    <div class="nav">
+      <a tal:attributes="href string:${data/prev}.html"
+         tal:omit-tag="not: data/prev">Anksčiau</a>
+      <a tal:attributes="href string:${data/next}.html"
+         tal:omit-tag="not: data/next">Vėliau</a>
+    </div>
     <div class="maps">
       <p><img src="scale.png" alt="Vėjas, kt" title="Vėjas, kt"/></p>
       <p><img src="tscale.png" alt="Temperatūra, °C"
               title="Temperatūra, °C"/></p>
       <p><img src="pscale.png" alt="Krituliai, mm/6h"
               title="Krituliai, mm/6h"/></p>
-      <p tal:define="hr data/hr">
+      <p tal:define="hr data/cur">
         <img tal:attributes="src string:Rtavn${hr}9.png;
                              alt string:Vėjas +$hr val.;
                              title string:Vėjas +$hr val."/>

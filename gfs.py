@@ -163,11 +163,18 @@ def tableIndex(extra='', **kw):
 def hourIndexes():
     """Kiekvienos valandos indeksai su 3 žemėlapiais"""
     template = PageTemplateFile(os.path.join(dirname, 'pt', 'hour.pt'))
-    for hr in hours:
-        index = open(os.path.join(outputdir, "%s.html" % hr), "w")
-        result = template({'title': '+%s h' % hr, 'hr': hr, 'time': tstamp()})
-        index.write(result.encode('utf-8'))
-        index.close()
+    cur = prev = None
+    for next in hours + [None]:
+        if cur is not None:
+            index = open(os.path.join(outputdir, "%s.html" % cur), "w")
+            result = template({'title': '+%s h' % cur,
+                               'prev': prev, 'cur': cur,
+                               'next': next,
+                               'time': tstamp()})
+            index.write(result.encode('utf-8'))
+            index.close()
+        prev = cur
+        cur = next
 
 def mobileIndex(extra='', **kw):
     """Padaro HTML indeksą su visos savaitės visais paveiksliukais
