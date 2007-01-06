@@ -56,7 +56,7 @@ def vg_text(kosis):
     e = lambda s: s.encode("windows-1257")
     print >> out, e(u"<h3>%s</h3>" % d.name)
     print >> out, e(u"<p>%s</p>" % d.timestamp)
-    print >> out, e(u"<img src='http://sraige.mif.vu.lt/vejas/aukstvg.png' alt=''>")
+    print >> out, e(u"<img src='aukstvg.png' alt=''>")
     print >> out, e(u"<table>")
     print >> out, e(u" <tr><th>Vid. vėjo greitis</th><td>%.0f m/s</td></tr>"
                     % d.avg)
