@@ -1,4 +1,4 @@
-<div class="meteo">
+<div class="meteo" tal:define="data python:args[0]">
     <div class="maps">
       <p tal:repeat="stotele data/stoteles">
         <img tal:attributes="src string:${stotele}2s.png" alt=""/>

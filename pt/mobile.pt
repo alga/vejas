@@ -1,4 +1,4 @@
-<div class="meteo">
+<div class="meteo" tal:define="data python:args[0]">
     <div class="maps">
       <table class="maps">
         <tr tal:repeat="hr data/hours">
