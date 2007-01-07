@@ -12,8 +12,9 @@ import sys
 import urllib
 import time
 import datetime
+import re
 import os.path
-from PIL import Image
+from PIL import Image, ImageDraw
 from cStringIO import StringIO
 from zope.pagetemplate.pagetemplatefile import PageTemplateFile
 
@@ -47,6 +48,7 @@ class WindPicture:
             file = StringIO(data.read())
         if type(file) == type(""):
             file = open(file)
+        self.hr = hr
         self.pic = Image.open(file)
         #self.mask = Image.open(self.maskName)
 
@@ -83,6 +85,7 @@ class WindPicture:
         "Nupaišom baltą tuščią paveiksliuką"
         return Image.new("RGB", self.canvasSize, (255, 255, 255))
 
+
 class PrecipitationPicture(WindPicture):
     """Kritulių paveiksliuko gavimas/aprodojimas"""
 
@@ -101,11 +104,52 @@ class PrecipitationPicture(WindPicture):
 class TempPicture(PrecipitationPicture):
     """Temperatūros paveiksliuko gavimas/apdorojimas"""
 
-
     url = "http://www.wetterzentrale.de/pics/Rtavn%s5.png"
     scale = rect(748, 110, 44, 425)
 
+
+class WavePicture(WindPicture):
+    """Lenkiškas bangavimo paveiksliukas"""
+
+    t0 = None
+    url = "http://falowanie.icm.edu.pl/pict/wavehgt%s.00700.GIF"
+    scale_url = "http://falowanie.icm.edu.pl/pictconst/wavehgt.legend.gif"
+    index_url = "http://falowanie.icm.edu.pl/english/wavefrcst.html"
+
+    map = rect(100, 398, 378, 248)
+    outsize = (189, 124)
+    textpos = (2, 114)
+
+    def compose(self):
+        im =  self.getMap().resize(self.outsize, Image.BICUBIC)
+        draw = ImageDraw.Draw(im)
+        draw.rectangle((4, 116, 140, 124), fill="white")
+        draw.text(self.textpos, "%s UTC" % self.date, fill="black")
+        del draw
+        return im
+
+    def getFullScale(self):
+        data = urllib.urlopen(self.scale_url)
+        file = StringIO(data.read())
+        pic = Image.open(file).convert("RGB")
+        return pic.resize((55, 300), Image.BICUBIC).rotate(90)
+
+    @property
+    def date(self):
+        if self.t0 is None:
+            WavePicture.t0 = self.getT0()
+        return self.t0 + datetime.timedelta(hours=int(self.hr))
+
+    def getT0(self):
+        text = urllib.urlopen(self.index_url).read()
+        match = re.search("<B>start \(t<sub>0</sub>\) : (.*)</B>", text)
+        datestr = match.group(1)
+        dtuple = time.strptime(datestr, "%A, %d %B %y, %H:%M UTC")
+        return datetime.datetime(*dtuple[:6])
+
+
 hours = ["%02d" % i for i in range(0, 164, 6)]
+
 
 def generate():
     """Susiurbia ir iškarpo visus paveiksliukus"""
@@ -132,6 +176,12 @@ def generate():
             # Miuleris neduoda 00, pakeičiam tuščiu
             pic.empty().save(os.path.join(outputdir, "Rtavn004.png"))
 
+    for hr in hours[1:9]:
+        pic = WavePicture(hr)
+        pic.compose().save(os.path.join(outputdir, "wavehgt%s.png" % hr))
+
+    pic.getFullScale().save(os.path.join(outputdir, "wscale.png"))
+
 
 def tstamp():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -139,9 +189,11 @@ def tstamp():
 
 def makeIndex(filename, **kw):
     """Vėjo, temperatūros ir kritulių indeksai"""
-    template = PageTemplateFile(os.path.join(dirname, 'pt', 'index.pt'))
+    pt = kw.get('template', 'index.pt')
+    template = PageTemplateFile(os.path.join(dirname, 'pt', pt))
     index = open(os.path.join(outputdir, filename), "w")
-    kw['hours'] = hours
+    if 'hours' not in kw:
+        kw['hours'] = hours
     kw['time'] = tstamp()
     if 'extra' not in kw:
         kw['extra'] = ''
@@ -160,6 +212,7 @@ def tableIndex(extra='', **kw):
     index.write(template(kw).encode('utf-8'))
     index.close()
 
+
 def hourIndexes():
     """Kiekvienos valandos indeksai su 3 žemėlapiais"""
     template = PageTemplateFile(os.path.join(dirname, 'pt', 'hour.pt'))
@@ -175,6 +228,7 @@ def hourIndexes():
             index.close()
         prev = cur
         cur = next
+
 
 def mobileIndex(extra='', **kw):
     """Padaro HTML indeksą su visos savaitės visais paveiksliukais
@@ -199,6 +253,7 @@ def mobileIndex(extra='', **kw):
         ''' % {'name': name})
         file.close()
 
+
 def istorijaIndex():
     """Padaro HTML su KOSIS RRD grafikais."""
 
@@ -209,6 +264,7 @@ def istorijaIndex():
                        'title': 'KOSIS istorija'})
     index.write(result.encode('utf-8'))
     index.close()
+
 
 def main(args):
     if len(args) > 1:
@@ -227,12 +283,16 @@ def main(args):
               title=u"Temperatūra", scale="tscale.png")
     makeIndex(filename="precipitation.html", picfmt="Rtavn%s4.png",
               title="Krituliai", scale="pscale.png")
+    makeIndex(filename="waves.html", picfmt="wavehgt%s.png",
+              title="Bangos", scale="wscale.png", hours=hours[1:9],
+              template="waves.pt")
     hourIndexes()
     tableIndex(extra=extra)
     mobileIndex()
     istorijaIndex()
     if '-n' not in args:
         generate()
+
 
 if __name__ == '__main__':
     main(sys.argv)
