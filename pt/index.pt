@@ -1,4 +1,4 @@
-<div class="meteo">
+<div class="meteo" tal:define="data python:args[0]">
     <div class="maps">
     <div tal:replace="structure data/extra" />
     <p>

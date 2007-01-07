@@ -1,4 +1,4 @@
-<div class="meteo">
+<div class="meteo" tal:define="data python:args[0]">
     <div class="maps">
       <p><img src="scale.png" alt="Vėjas, kt" title="Vėjas, kt"/></p>
       <p><img src="tscale.png" alt="Temperatūra, °C"
