@@ -1,27 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<html xmlns:tal="http://xml.zope.org/namespaces/tal"
-      tal:define="data python:args[0]">
-  <head>
-    <title>Vėjai Lietuvoj</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <style type="text/css">
-      body {font-family: tahoma, verdana, sans-serif; font-size: 9px}
-      h1 { font-size: 11px;}
-    </style>
-    </head>
-  <body>
-    <h1 tal:content="data/title" />
-
-    <p>
-      <span tal:replace="data/time"/>
-      <a href="aukst2dm.html">Aukštadv.</a>
-      <a href="back2dm.html">Bakonys</a>
-      <a href="vili2dm.html">Vilijampolė</a>
-      <a href="svent2dm.html">Šventoji</a>
-      <a href="klp2dm.html">Klaipėda</a>
-      <a href="silute2dm.html">Šilutė</a>
-    </p>
-
+<div class="meteo">
     <div class="maps">
       <table class="maps">
         <tr tal:repeat="hr data/hours">
@@ -52,5 +29,4 @@
       <p><img src="pscale.png" alt="Krituliai, mm/6h"
               title="Krituliai, mm/6h"/></p>
     </div>
-  </body>
-</html>
+</div>
