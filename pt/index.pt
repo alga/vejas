@@ -1,31 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<html xmlns:tal="http://xml.zope.org/namespaces/tal"
-      tal:define="data python:args[0]">
-  <head>
-    <title>Vėjai Lietuvoj</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" href="vejas.css"/>
-    </head>
-  <body>
-    <h1 tal:content="data/title" />
-
-    <div class="nav">
-       <a href=".">Vėjas</a>
-       <a href="temp.html">Temperatūra</a>
-       <a href="precipitation.html">Krituliai</a>
-       <a href="viskas.html">Viskas</a>
-       <a href="istorija.html">Istorija</a>
-    </div>
-
-    <p>Žemėlapiai paimti iš 
-    <a href="http://www.wetterzentrale.de/topkarten/fsavneur.html">
-       WetterZentrale
-    </a>. Iškarpė
-    <a href="mailto:alga@uosis.mif.vu.lt">Albertas Agejevas</a>.</p>
-
-    <p>Paskutinis atšviežinimas <span tal:replace="data/time"/>
-       Vilniaus laiku.</p>
-
+<div class="meteo">
     <div class="maps">
     <div tal:replace="structure data/extra" />
     <p>
@@ -42,8 +15,4 @@
       </a>
     </p>
     </div>
-    <a href="http://www.python.org/">
-      <img src="PythonPoweredSmall.gif" alt="Python powered!"/>
-    </a>
-  </body>
-</html>
+</div>
