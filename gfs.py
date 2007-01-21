@@ -112,18 +112,39 @@ class WavePicture(WindPicture):
     """Lenkiškas bangavimo paveiksliukas"""
 
     t0 = None
-    url = "http://falowanie.icm.edu.pl/pict/wavehgt%s.00700.GIF"
+    url = None
+    url_format = "http://falowanie.icm.edu.pl/pict/wavehgt%%s.%s.GIF"
     scale_url = "http://falowanie.icm.edu.pl/pictconst/wavehgt.legend.gif"
     index_url = "http://falowanie.icm.edu.pl/english/wavefrcst.html"
 
-    map = rect(100, 398, 378, 248)
-    outsize = (189, 124)
+    date_re = "<B>start \(t<sub>0</sub>\) : (.*)</B>"
+    url_re = "\.([0-9]{5})\.GIF"
+    map = rect(100, 398, 300, 248)
+    outsize = (150, 124)
     textpos = (2, 114)
+
+    def __init__(self, hr=None, file=None):
+        if self.url is None:
+            self.text = urllib.urlopen(self.index_url).read()
+
+            numbers = re.search(self.url_re, self.text).group(1)
+            WavePicture.url = self.url_format % numbers
+            WavePicture.t0 = self.getT0()
+        print self.url, WavePicture.url
+        WindPicture.__init__(self, hr, file)
+
+    def getT0(self):
+        match = re.search(self.date_re, self.text)
+        datestr = match.group(1)
+        dtuple = time.strptime(datestr, "%A, %d %B %y, %H:%M UTC")
+        return datetime.datetime(*dtuple[:6])
+
 
     def compose(self):
         im =  self.getMap().resize(self.outsize, Image.BICUBIC)
         draw = ImageDraw.Draw(im)
-        draw.rectangle((4, 116, 140, 124), fill="white")
+        x, y = self.textpos
+        draw.rectangle((x, y+1, x+136, y+12), fill="white")
         draw.text(self.textpos, "%s UTC" % self.date, fill="black")
         del draw
         return im
@@ -136,16 +157,7 @@ class WavePicture(WindPicture):
 
     @property
     def date(self):
-        if self.t0 is None:
-            WavePicture.t0 = self.getT0()
         return self.t0 + datetime.timedelta(hours=int(self.hr))
-
-    def getT0(self):
-        text = urllib.urlopen(self.index_url).read()
-        match = re.search("<B>start \(t<sub>0</sub>\) : (.*)</B>", text)
-        datestr = match.group(1)
-        dtuple = time.strptime(datestr, "%A, %d %B %y, %H:%M UTC")
-        return datetime.datetime(*dtuple[:6])
 
 
 hours = ["%02d" % i for i in range(0, 164, 6)]
