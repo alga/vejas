@@ -130,7 +130,6 @@ class WavePicture(WindPicture):
             numbers = re.search(self.url_re, self.text).group(1)
             WavePicture.url = self.url_format % numbers
             WavePicture.t0 = self.getT0()
-        print self.url, WavePicture.url
         WindPicture.__init__(self, hr, file)
 
     def getT0(self):
@@ -138,7 +137,6 @@ class WavePicture(WindPicture):
         datestr = match.group(1)
         dtuple = time.strptime(datestr, "%A, %d %B %y, %H:%M UTC")
         return datetime.datetime(*dtuple[:6])
-
 
     def compose(self):
         im =  self.getMap().resize(self.outsize, Image.BICUBIC)
@@ -158,6 +156,32 @@ class WavePicture(WindPicture):
     @property
     def date(self):
         return self.t0 + datetime.timedelta(hours=int(self.hr))
+
+
+class ICMWindPicture(WavePicture):
+
+    url_format = "http://meteo.icm.edu.pl/pict/forecast18/wind10m_pl%%s.%s.GIF"
+    index_url = "http://meteo.icm.edu.pl/"
+    url_re = 'var KON="([0-9]{5})"'
+
+    map = rect(426, 0, 301, 240)
+    outsize = (150, 120)
+    textpos = (2, 110)
+    scale = rect(730, 155, 120, 600)
+    scalesize = (300, 60)
+
+    def getT0(self):
+        y = int(re.search("var Year=([0-9]+)", self.text).group(1))
+        m = int(re.search("var Month=([0-9]+)", self.text).group(1))
+        d = int(re.search("var Day=([0-9]+)", self.text).group(1))
+        h = int(re.search("var Start_time=([0-9]+)", self.text).group(1))
+        return datetime.datetime(y, m, d, h)
+
+    def getFullScale(self):
+        "Iškerpa skalę"
+        scale = self.pic.crop(self.scale)
+        scale = scale.rotate(270).convert("RGB")
+        return scale.resize(self.scalesize, Image.BICUBIC)
 
 
 hours = ["%02d" % i for i in range(0, 164, 6)]
@@ -193,6 +217,12 @@ def generate():
         pic.compose().save(os.path.join(outputdir, "wavehgt%s.png" % hr))
 
     pic.getFullScale().save(os.path.join(outputdir, "wscale.png"))
+
+    for hr in hours[1:9]:
+        pic = ICMWindPicture(hr)
+        pic.compose().save(os.path.join(outputdir, "lenkai%s.png" % hr))
+
+    pic.getFullScale().save(os.path.join(outputdir, "lenkai_scale.png"))
 
 
 def tstamp():
@@ -297,6 +327,9 @@ def main(args):
               title="Krituliai", scale="pscale.png")
     makeIndex(filename="waves.html", picfmt="wavehgt%s.png",
               title="Bangos", scale="wscale.png", hours=hours[1:9],
+              template="waves.pt")
+    makeIndex(filename="lenkai.html", picfmt="lenkai%s.png",
+              title="Lenkai", scale="lenkai_scale.png", hours=hours[1:9],
               template="waves.pt")
     hourIndexes()
     tableIndex(extra=extra)
