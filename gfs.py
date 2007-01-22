@@ -218,6 +218,8 @@ def generate():
 
     pic.getFullScale().save(os.path.join(outputdir, "wscale.png"))
 
+    WavePicture.t0 = WavePicture.url = None
+
     for hr in hours[1:9]:
         pic = ICMWindPicture(hr)
         pic.compose().save(os.path.join(outputdir, "lenkai%s.png" % hr))
