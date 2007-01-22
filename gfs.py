@@ -44,7 +44,6 @@ class WindPicture:
     def __init__(self, hr=None, file=None):
         if hr:
             url = self.url % hr
-            print url
             data = urllib.urlopen(url)
             file = StringIO(data.read())
         if type(file) == type(""):
