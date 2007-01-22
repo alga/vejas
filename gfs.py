@@ -44,6 +44,7 @@ class WindPicture:
     def __init__(self, hr=None, file=None):
         if hr:
             url = self.url % hr
+            print url
             data = urllib.urlopen(url)
             file = StringIO(data.read())
         if type(file) == type(""):
@@ -126,11 +127,13 @@ class WavePicture(WindPicture):
     def __init__(self, hr=None, file=None):
         if self.url is None:
             self.text = urllib.urlopen(self.index_url).read()
-
-            numbers = re.search(self.url_re, self.text).group(1)
-            WavePicture.url = self.url_format % numbers
             WavePicture.t0 = self.getT0()
+            WavePicture.url = self.getURL()
         WindPicture.__init__(self, hr, file)
+
+    def getURL(self):
+        numbers = re.search(self.url_re, self.text).group(1)
+        return self.url_format % numbers
 
     def getT0(self):
         match = re.search(self.date_re, self.text)
@@ -160,7 +163,7 @@ class WavePicture(WindPicture):
 
 class ICMWindPicture(WavePicture):
 
-    url_format = "http://meteo.icm.edu.pl/pict/forecast18/wind10m_pl%%s.%s.GIF"
+    url_format = "http://meteo.icm.edu.pl/pict/forecast%02d/wind10m_pl%%s.%s.GIF"
     index_url = "http://meteo.icm.edu.pl/"
     url_re = 'var KON="([0-9]{5})"'
 
@@ -176,6 +179,10 @@ class ICMWindPicture(WavePicture):
         d = int(re.search("var Day=([0-9]+)", self.text).group(1))
         h = int(re.search("var Start_time=([0-9]+)", self.text).group(1))
         return datetime.datetime(y, m, d, h)
+
+    def getURL(self):
+        numbers = re.search(self.url_re, self.text).group(1)
+        return self.url_format % (self.t0.hour, numbers)
 
     def getFullScale(self):
         "Iškerpa skalę"
@@ -220,7 +227,7 @@ def generate():
 
     WavePicture.t0 = WavePicture.url = None
 
-    for hr in hours[1:9]:
+    for hr in hours[:11]:
         pic = ICMWindPicture(hr)
         pic.compose().save(os.path.join(outputdir, "lenkai%s.png" % hr))
 
@@ -331,7 +338,7 @@ def main(args):
               title="Bangos", scale="wscale.png", hours=hours[1:9],
               template="waves.pt")
     makeIndex(filename="lenkai.html", picfmt="lenkai%s.png",
-              title="Lenkai", scale="lenkai_scale.png", hours=hours[1:9],
+              title="Lenkai", scale="lenkai_scale.png", hours=hours[0:11],
               template="waves.pt")
     hourIndexes()
     tableIndex(extra=extra)
