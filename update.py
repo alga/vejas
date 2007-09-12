@@ -45,7 +45,7 @@ def update(db, tstamp, value):
 
 
 def vg_text(kosis):
-    readouts = [(r.timestamp, r) for r in kosis.data[u'Aukštadvaris']]
+    readouts = [(r.timestamp, r) for r in kosis.data.get(u'Aukštadvaris', [])]
     if not readouts:
         return
     readouts.sort()
