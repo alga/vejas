@@ -79,10 +79,16 @@ def guess_year(dt):
     choices = []
     now = datetime.datetime.now()
     choices.append((abs(dt - now), dt))
-    dt1 = dt.replace(year=dt.year - 1)
-    choices.append((abs(dt1 - now), dt1))
-    dt2 = dt.replace(year=dt.year + 1)
-    choices.append((abs(dt2 - now), dt2))
+    try:
+        dt1 = dt.replace(year=dt.year - 1)
+        choices.append((abs(dt1 - now), dt1))
+    except ValueError:
+        pass
+    try:
+        dt2 = dt.replace(year=dt.year + 1)
+        choices.append((abs(dt2 - now), dt2))
+    except ValueError:
+        pass
     choices.sort()
     return choices[0][1]
 
