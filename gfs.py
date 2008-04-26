@@ -162,8 +162,8 @@ class WavePicture(WindPicture):
 
 class ICMWindPicture(WavePicture):
 
-    url_format = "http://meteo.icm.edu.pl/pict/forecast%02d/wind10m_pl%%s.%s.GIF"
-    index_url = "http://meteo.icm.edu.pl/"
+    url_format = "http://umold.meteo.pl/pict/forecast%02d/wind10m_pl%%s.%s.GIF"
+    index_url = "http://umold.meteo.pl/"
     url_re = 'var KON="([0-9]{5})"'
 
     map = rect(426, 0, 301, 240)
