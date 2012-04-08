@@ -88,8 +88,6 @@ def main(args):
         (u'Klaipėda', 'klp')]:
         try:
             for readout in kosis.data[name]:
-                print "Updating %s %s %s" % (
-                    readout.timestamp, readout.avg, readout.dir)
                 update("%s-max.rrd" % prefix, readout.timestamp, readout.max)
                 update("%s-avg.rrd" % prefix, readout.timestamp, readout.avg)
                 update("%s-dir.rrd" % prefix, readout.timestamp, readout.dir)
