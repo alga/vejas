@@ -99,7 +99,7 @@ vejas () {
 	CDEF:dirpv=dir,220.5,GT,avg,-1,MIN,UNKN,IF \
 	 CDEF:dirv=dir,247.5,GT,avg,-1,MIN,UNKN,IF \
 	CDEF:dirsv=dir,292.5,GT,avg,-1,MIN,UNKN,IF \
-	LINE1:max$C10:Maksimalus \
+	LINE1:max$C10: \
 	LINE1:max20$C20:  \
 	LINE1:max19$C19:  \
 	LINE1:max18$C18:  \
@@ -120,7 +120,7 @@ vejas () {
 	LINE1:max3$C3: \
 	LINE1:max2$C2: \
 	LINE1:max1$C1: \
-	AREA:avg$C5:Vidutinis  \
+	AREA:avg$C5:  \
 	AREA:avg20$C20:  \
 	AREA:avg19$C19:  \
 	AREA:avg18$C18:  \
@@ -165,6 +165,8 @@ vejas () {
 	AREA:gap: \
 	STACK:dirsv$SV:SV \
 	#HRULE:6\#FF0000:"Rock'n'roll"
+	#LINE1:max$C10:Maksimalus \
+        #AREA:avg$C5:Vidutinis  \
 }
 
 kryptis () {

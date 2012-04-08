@@ -22,7 +22,7 @@ from os import system, popen
 import os.path
 import time
 
-from kosisxml import KOSIS
+from kosis2 import KOSIS
 
 
 outputdir = "."
@@ -60,8 +60,6 @@ def vg_text(kosis):
     print >> out, e(u"<table>")
     print >> out, e(u" <tr><th>Vid. vėjo greitis</th><td>%.0f m/s</td></tr>"
                     % d.avg)
-    print >> out, e(u" <tr><th>Maks. vėjo greitis</th><td>%.0f m/s</td></tr>"
-                    % d.max)
     print >> out, e(u" <tr><th>Vėjo kryptis</th><td>%s</td></tr>" % d.dir_txt)
     print >> out, e(u" <tr><th>Oro temperatūra</th><td>%s&deg;C</td></tr>" % d.temp)
     print >> out, e(u" <tr><th>Rasos taškas</th><td>%s&deg;C</td></tr>" % d.dew)
@@ -83,13 +81,15 @@ def main(args):
     for name, prefix in [
         (u'Aukštadvaris', 'aukst'),
         (u'Bačkonys', 'back'),
-        (u'Didžiulio eþ.', 'didz'),
+        (u'Didžiulio ež.', 'didz'),
         (u'Šventoji', 'svent'),
         (u'Vilijampolė', 'vili'),
         (u'Šilutė', 'silute'),
         (u'Klaipėda', 'klp')]:
         try:
             for readout in kosis.data[name]:
+                print "Updating %s %s %s" % (
+                    readout.timestamp, readout.avg, readout.dir)
                 update("%s-max.rrd" % prefix, readout.timestamp, readout.max)
                 update("%s-avg.rrd" % prefix, readout.timestamp, readout.avg)
                 update("%s-dir.rrd" % prefix, readout.timestamp, readout.dir)
