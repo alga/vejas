@@ -35,7 +35,7 @@ SV="#bf00ff"
 
 vejas () {
     filename=$1
-    time=$(($2 * 3600 * 24))
+    time=$((3600 * 24 * $2))
     width=$3
     height=$4
     title=$5
@@ -44,6 +44,7 @@ vejas () {
     rrdtool graph $OUT/$filename \
 	-v 'Vejas, m/s'  \
 	-h $height -w $width -l 0 -s -$time -t "$title" \
+	-c BACK$BG \
 	DEF:max=$OUT/$db-max.rrd:max:MAX \
 	DEF:avg=$OUT/$db-avg.rrd:avg:AVERAGE  \
 	DEF:dir=$OUT/$db-dir.rrd:dir:AVERAGE \
@@ -199,6 +200,7 @@ kryptis () {
 }
 
 OUT=${1:-.}
+BG=\#f1f1f1
 
 vejas aukst2d.png 2 400 200 "KOSIS: Aukstadvaris (2 d.)"    aukst
 vejas aukst2s.png 14 675 200 "KOSIS: Aukstadvaris (2 sav.)" aukst
@@ -231,8 +233,9 @@ vejas silute2dm.png 2 150 100 "KOSIS: Silute (2 d.)"    silute
 vejas klaipeda2dm.png 2 150 100 "KOSIS: Klaipeda (2 d.)"    klp
 
 # VG grafikas
-vejas aukstvg.png 2 115 80 "Aukstadvaris" aukst
-mogrify -crop 151x105+40+25 $OUT/aukstvg.png
+BG=\#ffffff
+vejas aukstvg.png "5/24" 115 80 "Aukstadvaris" aukst
+mogrify -crop 150x105+40+25 $OUT/aukstvg.png
 
 # Do the  wireless thing, too!
 exec ./wbmp.sh $OUT
