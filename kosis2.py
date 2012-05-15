@@ -38,8 +38,12 @@ class KOSIS(object):
     def __init__(self):
         self.data = {}
         for id_ in self.ids.values():
-            station = Station(self.url % id_)
-            self.data[station.name] = [station]
+	    try:
+            	station = Station(self.url % id_)
+            except Exception, e:
+                print "Error for %s: %s" % (id_, e)
+            else:
+                self.data[station.name] = [station]
 
 
 class Station(object):
@@ -72,7 +76,10 @@ class Station(object):
         # [u'V\u0117jo kryptis:', u'Vakar\u0173']
 
         def fl(key):
-            return float(data[key].replace(",", "."))
+            if data[key]:
+                return float(data[key].replace(",", "."))
+            else:
+                return 0.0
 
         self.timestamp = datetime.datetime.strptime(
             data[u'Surinkimo data:'], "%Y-%m-%d %H:%M")
