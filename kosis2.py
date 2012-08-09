@@ -26,12 +26,12 @@ class KOSIS(object):
            "q=lt/traffic-map-info-window&type=device&id=%d")
 
     ids = {
-        'aukst': 137,
+        'aukst': 1163,
         'back': 107,
-        'didz': 106,
-        'svent': 61,
-        'vili': 120,
-        'silute': 133,
+        'viln': 1166,
+        'viev': 308,
+        'svent': 981,
+        'silute': 984,
         'klp': 111,
         }
 
@@ -62,7 +62,7 @@ class Station(object):
 
         data = dict([[e.text for e in row.findAll('td')]
                      for row in soup.findAll('tr')])
- 
+
         # [u'Surinkimo data:', u'2012-04-08 14:50']
         # [u'Krituli\u0173 intensyvumas (mm/h):', u'0']
         # [u'Krituli\u0173 tipas:', u'N\u0117ra']
@@ -83,7 +83,8 @@ class Station(object):
 
         self.timestamp = datetime.datetime.strptime(
             data[u'Surinkimo data:'], "%Y-%m-%d %H:%M")
-        self.max = self.avg = fl(u'Vidut. v\u0117jo greitis (m/s):')
+        self.avg = fl(u'Vidut. v\u0117jo greitis (m/s):')
+        self.max = fl(u'Maks. v\u0117jo greitis (m/s):')
         self.dir_txt = data[u'V\u0117jo kryptis:']
         self.dir = self.deg.get(self.dir_txt, 0)
         self.precipitation = fl(u'Krituli\u0173 intensyvumas (mm/h):')

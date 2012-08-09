@@ -205,32 +205,23 @@ BG=\#f1f1f1
 vejas aukst2d.png 2 400 200 "KOSIS: Aukstadvaris (2 d.)"    aukst
 vejas aukst2s.png 14 675 200 "KOSIS: Aukstadvaris (2 sav.)" aukst
 
+vejas viln2d.png 2 400 200 "KOSIS: Vilnius (2 d.)"    viln
+vejas viln2s.png 14 675 200 "KOSIS: Vilnius (2 sav.)" viln
+
+vejas viev2d.png 2 400 200 "KOSIS: Vievis (2 d.)"    viev
+vejas viev2s.png 14 675 200 "KOSIS: Vievis (2 sav.)" viev
+
 vejas back2d.png 2 400 200 "KOSIS: Backonys (2 d.)"    back
 vejas back2s.png 14 675 200 "KOSIS: Backonys (2 sav.)" back
 
-vejas didz2d.png 2 400 200 "KOSIS: Didziulio ez. (2 d.)"    didz
-vejas didz2s.png 14 675 200 "KOSIS: Didziulio ez. (2 sav.)" didz
-
 vejas svent2d.png 2 400 200 "KOSIS: Sventoji (2 d.)"    svent
 vejas svent2s.png 14 675 200 "KOSIS: Sventoji (2 sav.)" svent
-
-vejas vili2d.png 2 400 200 "KOSIS: Vilijampole (2 d.)"    vili
-vejas vili2s.png 14 675 200 "KOSIS: Vilijampole (2 sav.)" vili
 
 vejas silute2d.png 2 400 200 "KOSIS: Silute (2 d.)"    silute
 vejas silute2s.png 14 675 200 "KOSIS: Silute (2 sav.)" silute
 
 vejas klp2d.png 2 400 200 "KOSIS: Klaipeda (2 d.)"    klp
 vejas klp2s.png 14 675 200 "KOSIS: Klaipeda (2 sav.)" klp
-
-# Delninis formatas
-vejas aukst2dm.png 2 150 100 "KOSIS: Aukstadvaris (2 d.)"    aukst
-vejas back2dm.png 2 150 100 "KOSIS: Backonys (2 d.)"    back
-vejas didz2dm.png 2 150 100 "KOSIS: Didziulio ez. (2 d.)"    didz
-vejas svent2dm.png 2 150 100 "KOSIS: Sventoji (2 d.)"    svent
-vejas vili2dm.png 2 150 100 "KOSIS: Vilijampole (2 d.)"    vili
-vejas silute2dm.png 2 150 100 "KOSIS: Silute (2 d.)"    silute
-vejas klaipeda2dm.png 2 150 100 "KOSIS: Klaipeda (2 d.)"    klp
 
 # VG grafikas
 BG=\#ffffff

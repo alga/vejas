@@ -10,17 +10,17 @@ rrdtool create back-max.rrd DS:max:GAUGE:9000:0:30  RRA:MAX:0.5:1:4000
 rrdtool create back-avg.rrd DS:avg:GAUGE:9000:0:30  RRA:AVERAGE:0.5:1:4000
 rrdtool create back-dir.rrd DS:dir:GAUGE:9000:0:360 RRA:AVERAGE:0.5:1:4000
 
-rrdtool create didz-max.rrd DS:max:GAUGE:9000:0:30  RRA:MAX:0.5:1:4000
-rrdtool create didz-avg.rrd DS:avg:GAUGE:9000:0:30  RRA:AVERAGE:0.5:1:4000
-rrdtool create didz-dir.rrd DS:dir:GAUGE:9000:0:360 RRA:AVERAGE:0.5:1:4000
+rrdtool create viln-max.rrd DS:max:GAUGE:9000:0:30  RRA:MAX:0.5:1:4000
+rrdtool create viln-avg.rrd DS:avg:GAUGE:9000:0:30  RRA:AVERAGE:0.5:1:4000
+rrdtool create viln-dir.rrd DS:dir:GAUGE:9000:0:360 RRA:AVERAGE:0.5:1:4000
+
+rrdtool create viev-max.rrd DS:max:GAUGE:9000:0:30  RRA:MAX:0.5:1:4000
+rrdtool create viev-avg.rrd DS:avg:GAUGE:9000:0:30  RRA:AVERAGE:0.5:1:4000
+rrdtool create viev-dir.rrd DS:dir:GAUGE:9000:0:360 RRA:AVERAGE:0.5:1:4000
 
 rrdtool create svent-max.rrd DS:max:GAUGE:9000:0:30  RRA:MAX:0.5:1:4000
 rrdtool create svent-avg.rrd DS:avg:GAUGE:9000:0:30  RRA:AVERAGE:0.5:1:4000
 rrdtool create svent-dir.rrd DS:dir:GAUGE:9000:0:360 RRA:AVERAGE:0.5:1:4000
-
-rrdtool create vili-max.rrd DS:max:GAUGE:9000:0:30  RRA:MAX:0.5:1:4000
-rrdtool create vili-avg.rrd DS:avg:GAUGE:9000:0:30  RRA:AVERAGE:0.5:1:4000
-rrdtool create vili-dir.rrd DS:dir:GAUGE:9000:0:360 RRA:AVERAGE:0.5:1:4000
 
 rrdtool create silute-max.rrd DS:max:GAUGE:9000:0:30  RRA:MAX:0.5:1:4000
 rrdtool create silute-avg.rrd DS:avg:GAUGE:9000:0:30  RRA:AVERAGE:0.5:1:4000

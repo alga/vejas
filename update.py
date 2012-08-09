@@ -81,9 +81,9 @@ def main(args):
     for name, prefix in [
         (u'Aukštadvaris', 'aukst'),
         (u'Bačkonys', 'back'),
-        (u'Didžiulio ež.', 'didz'),
+        (u'Vilnius', 'viln'),
+        (u'Vievis', 'viev'),
         (u'Šventoji', 'svent'),
-        (u'Vilijampolė', 'vili'),
         (u'Šilutė', 'silute'),
         (u'Klaipėda', 'klp')]:
         try:
