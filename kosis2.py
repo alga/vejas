@@ -58,7 +58,8 @@ class Station(object):
         # Server replies 'HTTP/1.1 Ok 200 \r\n', which breaks urllib?
         doc = os.popen("curl '%s' 2> /dev/null" % self.url).read()
         soup = BeautifulSoup(doc)
-        self.name = soup.find('div', {'class': 'title'}).text
+        title = soup.find('div', {'class': 'title'})
+        self.name = title.text if title else ''
 
         data = dict([[e.text for e in row.findAll('td')]
                      for row in soup.findAll('tr')])
