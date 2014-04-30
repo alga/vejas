@@ -41,7 +41,8 @@ class KOSIS(object):
 	    try:
             	station = Station(self.url % id_)
             except Exception, e:
-                print "Error for %s: %s" % (id_, e)
+                # print "Error for %s: %s" % (id_, e)
+		pass
             else:
                 self.data[station.name] = [station]
 
