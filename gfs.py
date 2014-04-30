@@ -28,12 +28,12 @@ def rect(x, y, w, h):
 class WindPicture:
     """Vėjo paveiksliuko gavimas/apdorojimas"""
 
-    url = "http://www.wetterzentrale.de/pics/Rtavn%s9.png"
+    url = "http://www.wetterzentrale.de/pics/Rtavn%s9.gif"
     maskName = os.path.join(dirname, "crop-map.png")
-    map =   rect(474, 56, 214, 158)
+    map =   rect(520, 62, 214, 158)
     mapoffset = (20, 0)
-    date =  rect(476, 0, 257, 16)
-    scale = rect(740, 65, 35, 489)
+    date =  rect(536, 5, 257, 16)
+    scale = rect(800, 100, 35, 489)
     newDate = (214, 14)
     dateOffset = (0, 0)
     mapOffset = (0, 14)
@@ -86,13 +86,13 @@ class WindPicture:
 class PrecipitationPicture(WindPicture):
     """Kritulių paveiksliuko gavimas/aprodojimas"""
 
-    url = "http://www.wetterzentrale.de/pics/Rtavn%s4.png"
+    url = "http://www.wetterzentrale.de/pics/Rtavn%s4.gif"
     maskName = "crop-map-small.png"
-    map =   rect(449, 217, 140, 139)
+    map =   rect(500, 217, 140, 139)
     mapoffset = (1, -1)
-    date =  rect(476, 0, 257, 16)
+    date =  rect(536, 5, 257, 16)
     newDate = (142, 8)
-    scale = rect(750, 160, 30, 330)
+    scale = rect(810, 160, 30, 330)
     canvasSize = (142, 149)
     dateOffset = (0, 0)
     mapOffset = (1, 9)
@@ -102,8 +102,8 @@ class TempPicture(PrecipitationPicture):
     """Temperatūros paveiksliuko gavimas/apdorojimas"""
 
 
-    url = "http://www.wetterzentrale.de/pics/Rtavn%s5.png"
-    scale = rect(748, 110, 44, 425)
+    url = "http://www.wetterzentrale.de/pics/Rtavn%s5.gif"
+    scale = rect(806, 130, 44, 425)
 
 hours = ["%02d" % i for i in range(0, 164, 6)]
 
