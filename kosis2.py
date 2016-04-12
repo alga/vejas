@@ -16,6 +16,7 @@
 '''
 import datetime
 import os
+import urllib
 from BeautifulSoup import BeautifulSoup
 from pprint import pprint
 
@@ -55,9 +56,7 @@ class Station(object):
 
     def __init__(self, url):
         self.url = url
-        #doc = urllib.urlopen(self.url).read()
-        # Server replies 'HTTP/1.1 Ok 200 \r\n', which breaks urllib?
-        doc = os.popen("curl '%s' 2> /dev/null" % self.url).read()
+        doc = urllib.urlopen(self.url).read()
         soup = BeautifulSoup(doc)
         title = soup.find('div', {'class': 'title'})
         self.name = title.text if title else ''
