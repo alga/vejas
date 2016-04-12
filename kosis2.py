@@ -58,7 +58,7 @@ class Station(object):
         self.url = url
         doc = urllib.urlopen(self.url).read()
         soup = BeautifulSoup(doc)
-        title = soup.find('div', {'class': 'title'})
+        title = soup.find('h3')
         self.name = title.text if title else ''
 
         data = dict([[e.text for e in row.findAll('td')]
