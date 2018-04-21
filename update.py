@@ -28,8 +28,10 @@ from eismoinfo import EismoInfo
 outputdir = "."
 
 
-def update(db, tstamp, value):
+def update(db, values):
     """Update RRD database db with value at a given time.
+
+    `values` is a sequence of (timestamp, value) pairs.
 
     An update is only performed if the time is more than the last
     update time.
@@ -37,7 +39,8 @@ def update(db, tstamp, value):
 
     db = os.path.join(outputdir, db)
 
-    cmdline = "rrdtool update -s %s %i:%f" % (db, tstamp, value)
+    data = " ".join("%i:%f" % (t, v) for t, v in values)
+    cmdline = "rrdtool update -s %s %s" % (db, data)
     system(cmdline)
 
 
@@ -85,9 +88,12 @@ def main(args):
         (u'Klaipėda', 'klp')]:
         try:
             for readout in einfo[name]:
-                update("%s-max.rrd" % prefix, readout.timestamp, readout.max)
-                update("%s-avg.rrd" % prefix, readout.timestamp, readout.avg)
-                update("%s-dir.rrd" % prefix, readout.timestamp, readout.dir)
+                update("%s-max.rrd" % prefix,
+                       [(readout.timestamp, readout.max)])
+                update("%s-avg.rrd" % prefix,
+                       [(readout.timestamp, readout.avg)])
+                update("%s-dir.rrd" % prefix,
+                       [(readout.timestamp, readout.dir)])
         except KeyError:
             pass
 

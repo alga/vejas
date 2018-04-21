@@ -14,34 +14,59 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 """
+import os
 import sys
 import json
 import requests
 
 import eismoinfo
-from update import update
+import update
+
+
+from itertools import izip_longest as zip_longest # for Python 2.x
+#from itertools import zip_longest # for Python 3.x
+#from six.moves import zip_longest # for both (uses the six compat library)
+# https://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks/312464
+def grouper(n, iterable, padvalue=None):
+    "grouper(3, 'abcdefg', 'x') --> ('a','b','c'), ('d','e','f'), ('g','x','x')"
+    return zip_longest(*[iter(iterable)]*n, fillvalue=padvalue)
 
 
 URL = "http://eismoinfo.lt/weather-conditions-retrospective?id={0}&number={1}"
 
+outputdir = "."
+
 def main():
+    if len(sys.argv) > 1:
+        global outputdir
+        update.outputdir = outputdir = sys.argv[1]
+
     for station, code in eismoinfo.EismoInfo.ids.items():
-        print
         print station
-        text = requests.get(URL.format(code, 1000)).text
+        text = requests.get(URL.format(code, 1500)).text
         data = json.loads(text.split('<!DOCTYPE')[0])
         data.sort(key=lambda d: d["surinkimo_data_unix"])
-        for i, item in enumerate(data):
-            if i % 50 == 0:
-                sys.stdout.write(".")
-                sys.stdout.flush()
-            item["irenginys"] = station
-            readout = eismoinfo.Station(item)
+        for chunk in grouper(100, data):
+            sys.stdout.write(".")
+            sys.stdout.flush()
+            maxes = []
+            avgs = []
+            dirs = []
+            for item in chunk:
+                if item is None:
+                    break
+                item["irenginys"] = station
+                readout = eismoinfo.Station(item)
+                maxes.append((readout.timestamp, readout.max))
+                avgs.append((readout.timestamp, readout.avg))
+                dirs.append((readout.timestamp, readout.dir))
             # TODO: bunch up updates into a single command
-            update("%s-max.rrd" % station, readout.timestamp, readout.max)
-            update("%s-avg.rrd" % station, readout.timestamp, readout.avg)
-            update("%s-dir.rrd" % station, readout.timestamp, readout.dir)
-    print
+            update.update("%s-max.rrd" % station, maxes)
+            update.update("%s-avg.rrd" % station, avgs)
+            update.update("%s-dir.rrd" % station, dirs)
+        print
+
+    os.system("sh graph.sh %s > /dev/null 2>&1 " % outputdir)
 
 
 if __name__ == "__main__":
