@@ -23,6 +23,11 @@
     </a>. Iškarpė
     <a href="mailto:alga@uosis.mif.vu.lt">Albertas Agejevas</a>.</p>
 
+    <p>
+      Vėjo istoriniai duomenys iš
+      <a href="http://www.eismoinfo.lt/">eismoinfo.lt</a>.
+    </p>
+
     <p>Paskutinis atšviežinimas <span tal:replace="data/time"/>
        Vilniaus laiku.</p>
 
