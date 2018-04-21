@@ -1,4 +1,5 @@
 #!/bin/sh
+# -*- coding: utf-8 -*-
 
 # C3 is 2-3 m/s
 # C4 is 3-4 m/s
@@ -42,7 +43,7 @@ vejas () {
     db=$6
 
     rrdtool graph $OUT/$filename \
-	-v 'Vejas, m/s'  \
+	-v 'Vėjas, m/s'  \
 	-h $height -w $width -l 0 -s -$time -t "$title" \
 	-c BACK$BG \
 	DEF:max=$OUT/$db-max.rrd:max:MAX \
@@ -145,7 +146,7 @@ vejas () {
 	COMMENT:\\s \
 	COMMENT:\\s \
 	COMMENT:\\s \
-	COMMENT:"Vejo kryptis" \
+	COMMENT:"Vėjo kryptis" \
 	HRULE:0#000000: \
 	AREA:gap\#FFFFFF: \
 	STACK:dirs$S:S \
@@ -172,11 +173,11 @@ vejas () {
 
 kryptis () {
     rrdtool graph $OUT/kryptis.png \
-        -v 'Vejas, kryptis' "$@" \
+        -v 'Vėjas, kryptis' "$@" \
         -h 100 -w 400 \
         -l 0 -u 360 -r \
         -y 45:2  \
-        -s -200000 -t "KOSIS: Aukstadvaris" \
+        -s -200000 -t "KOSIS: Aukštadvaris" \
         DEF:dir=$OUT/aukst-dir.rrd:dir:AVERAGE \
         CDEF:dirs2=dir,360,LE,dir,UNKN,IF \
         CDEF:dirs=dir,0,GT,dir,UNKN,IF \
@@ -202,31 +203,31 @@ kryptis () {
 OUT=${1:-.}
 BG=\#f1f1f1
 
-vejas aukst2d.png 2 400 200 "KOSIS: Aukstadvaris (2 d.)"    aukst
-vejas aukst2s.png 14 675 200 "KOSIS: Aukstadvaris (2 sav.)" aukst
+vejas aukst2d.png 2 400 200 "eismoinfo.lt: Aukštadvaris (2 d.)"    aukst
+vejas aukst2s.png 14 675 200 "eismoinfo.lt: Aukštadvaris (2 sav.)" aukst
 
-vejas viln2d.png 2 400 200 "KOSIS: Vilnius (2 d.)"    viln
-vejas viln2s.png 14 675 200 "KOSIS: Vilnius (2 sav.)" viln
+vejas viln2d.png 2 400 200 "eismoinfo.lt: Vilnius (2 d.)"    viln
+vejas viln2s.png 14 675 200 "eismoinfo.lt: Vilnius (2 sav.)" viln
 
-vejas viev2d.png 2 400 200 "KOSIS: Vievis (2 d.)"    viev
-vejas viev2s.png 14 675 200 "KOSIS: Vievis (2 sav.)" viev
+vejas viev2d.png 2 400 200 "eismoinfo.lt: Vievis (2 d.)"    viev
+vejas viev2s.png 14 675 200 "eismoinfo.lt: Vievis (2 sav.)" viev
 
-vejas back2d.png 2 400 200 "KOSIS: Backonys (2 d.)"    back
-vejas back2s.png 14 675 200 "KOSIS: Backonys (2 sav.)" back
+vejas back2d.png 2 400 200 "eismoinfo.lt: Bačkonys (2 d.)"    back
+vejas back2s.png 14 675 200 "eismoinfo.lt: Bačkonys (2 sav.)" back
 
-vejas svent2d.png 2 400 200 "KOSIS: Sventoji (2 d.)"    svent
-vejas svent2s.png 14 675 200 "KOSIS: Sventoji (2 sav.)" svent
+vejas svent2d.png 2 400 200 "eismoinfo.lt: Šventoji (2 d.)"    svent
+vejas svent2s.png 14 675 200 "eismoinfo.lt: Šventoji (2 sav.)" svent
 
-vejas silute2d.png 2 400 200 "KOSIS: Silute (2 d.)"    silute
-vejas silute2s.png 14 675 200 "KOSIS: Silute (2 sav.)" silute
+vejas silute2d.png 2 400 200 "eismoinfo.lt: Šilute (2 d.)"    silute
+vejas silute2s.png 14 675 200 "eismoinfo.lt: Šilute (2 sav.)" silute
 
-vejas klp2d.png 2 400 200 "KOSIS: Klaipeda (2 d.)"    klp
-vejas klp2s.png 14 675 200 "KOSIS: Klaipeda (2 sav.)" klp
+vejas klp2d.png 2 400 200 "eismoinfo.lt: Klaipėda (2 d.)"    klp
+vejas klp2s.png 14 675 200 "eismoinfo.lt: Klaipėda (2 sav.)" klp
 
 # VG grafikas
 BG=\#ffffff
-vejas aukstvg.png "5/24" 115 80 "Aukstadvaris" aukst
+vejas aukstvg.png "5/24" 115 80 "Aukštadvaris" aukst
 mogrify -crop 150x105+40+25 $OUT/aukstvg.png
 
 # Do the  wireless thing, too!
-exec ./wbmp.sh $OUT
+#exec ./wbmp.sh $OUT
