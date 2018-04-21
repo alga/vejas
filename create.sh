@@ -2,31 +2,10 @@
 # Create databases for wind stats
 # $Id: create.sh,v 1.8 2005/07/19 10:40:28 alga Exp $
 
-rrdtool create aukst-max.rrd DS:max:GAUGE:9600:0:30  RRA:MAX:0.5:1:4000
-rrdtool create aukst-avg.rrd DS:avg:GAUGE:9600:0:30  RRA:AVERAGE:0.5:1:4000
-rrdtool create aukst-dir.rrd DS:dir:GAUGE:9600:0:360 RRA:AVERAGE:0.5:1:4000
+start=`date +%s -d "2 weeks ago"`
 
-rrdtool create back-max.rrd DS:max:GAUGE:9000:0:30  RRA:MAX:0.5:1:4000
-rrdtool create back-avg.rrd DS:avg:GAUGE:9000:0:30  RRA:AVERAGE:0.5:1:4000
-rrdtool create back-dir.rrd DS:dir:GAUGE:9000:0:360 RRA:AVERAGE:0.5:1:4000
-
-rrdtool create viln-max.rrd DS:max:GAUGE:9000:0:30  RRA:MAX:0.5:1:4000
-rrdtool create viln-avg.rrd DS:avg:GAUGE:9000:0:30  RRA:AVERAGE:0.5:1:4000
-rrdtool create viln-dir.rrd DS:dir:GAUGE:9000:0:360 RRA:AVERAGE:0.5:1:4000
-
-rrdtool create viev-max.rrd DS:max:GAUGE:9000:0:30  RRA:MAX:0.5:1:4000
-rrdtool create viev-avg.rrd DS:avg:GAUGE:9000:0:30  RRA:AVERAGE:0.5:1:4000
-rrdtool create viev-dir.rrd DS:dir:GAUGE:9000:0:360 RRA:AVERAGE:0.5:1:4000
-
-rrdtool create svent-max.rrd DS:max:GAUGE:9000:0:30  RRA:MAX:0.5:1:4000
-rrdtool create svent-avg.rrd DS:avg:GAUGE:9000:0:30  RRA:AVERAGE:0.5:1:4000
-rrdtool create svent-dir.rrd DS:dir:GAUGE:9000:0:360 RRA:AVERAGE:0.5:1:4000
-
-rrdtool create silute-max.rrd DS:max:GAUGE:9000:0:30  RRA:MAX:0.5:1:4000
-rrdtool create silute-avg.rrd DS:avg:GAUGE:9000:0:30  RRA:AVERAGE:0.5:1:4000
-rrdtool create silute-dir.rrd DS:dir:GAUGE:9000:0:360 RRA:AVERAGE:0.5:1:4000
-
-rrdtool create klp-max.rrd DS:max:GAUGE:9000:0:30  RRA:MAX:0.5:1:4000
-rrdtool create klp-avg.rrd DS:avg:GAUGE:9000:0:30  RRA:AVERAGE:0.5:1:4000
-rrdtool create klp-dir.rrd DS:dir:GAUGE:9000:0:360 RRA:AVERAGE:0.5:1:4000
-
+for db in aukst back viln viev svent silute klp; do
+    rrdtool create -b $start $db-max.rrd DS:max:GAUGE:9600:0:30  RRA:MAX:0.5:1:4000
+    rrdtool create -b $start $db-avg.rrd DS:avg:GAUGE:9600:0:30  RRA:AVERAGE:0.5:1:4000
+    rrdtool create -b $start $db-dir.rrd DS:dir:GAUGE:9600:0:360 RRA:AVERAGE:0.5:1:4000
+done
