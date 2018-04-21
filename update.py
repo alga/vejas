@@ -38,9 +38,12 @@ def update(db, values):
     """
 
     db = os.path.join(outputdir, db)
+    last = int(popen("rrdtool last %s" % db).read())
+    values = [(ts, val) for ts, val in values
+              if ts > last]
 
     data = " ".join("%i:%f" % (t, v) for t, v in values)
-    cmdline = "rrdtool update -s %s %s" % (db, data)
+    cmdline = "rrdtool update %s %s" % (db, data)
     system(cmdline)
 
 
