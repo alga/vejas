@@ -79,12 +79,12 @@ class Station(object):
         try:
             self.name = data["irenginys"]
             self.timestamp = int(data["surinkimo_data_unix"])
-            self.avg = float(data["vejo_greitis_vidut"])
-            self.max = float(data["vejo_greitis_maks"])
+            self.avg = float(data["vejo_greitis_vidut"] or 0)
+            self.max = float(data["vejo_greitis_maks"] or 0)
             self.dir_txt = data["vejo_kryptis"]
             self.dir = self.deg.get(self.dir_txt, 0)
-            self.temp = float(data["oro_temperatura"])
-            self.dew = float(data["rasos_taskas"])
+            self.temp = float(data["oro_temperatura"] or 0)
+            self.dew = float(data["rasos_taskas"] or 0)
             self.precipitation_type = data["krituliu_tipas"]
             self.precipitation = float(data["krituliu_kiekis"] or 0)
         except Exception:
