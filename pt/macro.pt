@@ -22,7 +22,7 @@
     <a href="http://www.wetterzentrale.de/topkarten/fsavneur.html">
        WetterZentrale
     </a>. Iškarpė
-    <a href="mailto:alga@uosis.mif.vu.lt">Albertas Agejevas</a>.</p>
+    <a href="mailto:albertas.agejevas@gmail.com">Albertas Agejevas</a>.</p>
 
     <p>Paskutinis atšviežinimas <span tal:replace="data/update"/></p>
 
