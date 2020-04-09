@@ -43,8 +43,7 @@
         <a tal:attributes="href string:${hour}.html">
           <img tal:attributes="src python: data['picfmt'] % hour;
                              title string:$hour h;
-                             alt string:$hour h"/>
-        </a>
+                             alt string:$hour h"/></a>
         <br tal:condition="python:repeat['hour'].index() % 4 == 3"/>
       </tal:block>
     </p>
