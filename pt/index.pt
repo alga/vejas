@@ -39,12 +39,14 @@
                              title data/title"/>
     </p>
     <p>
-      <a tal:repeat="hour data/hours"
-         tal:attributes="href string:${hour}.html">
-        <img tal:attributes="src python: data['picfmt'] % hour;
+      <tal:block  tal:repeat="hour data/hours">
+        <a tal:attributes="href string:${hour}.html">
+          <img tal:attributes="src python: data['picfmt'] % hour;
                              title string:$hour h;
                              alt string:$hour h"/>
-      </a>
+        </a>
+        <br tal:condition="python:repeat['hour'].index() % 4 == 3"/>
+      </tal:block>
     </p>
     </div>
     <a href="http://www.python.org/">
