@@ -10,7 +10,6 @@ $Id: muller.py,v 1.20 2005/07/19 10:40:28 alga Exp $
 
 import sys
 import urllib
-import time
 import datetime
 import os.path
 from PIL import Image
@@ -28,12 +27,10 @@ def rect(x, y, w, h):
 class WindPicture:
     """Vėjo paveiksliuko gavimas/apdorojimas"""
 
-    url = "http://www.wetterzentrale.de/pics/Rtavn%s9.gif"
-    maskName = os.path.join(dirname, "crop-map.png")
-    map =   rect(520, 62, 214, 158)
-    mapoffset = (20, 0)
-    date =  rect(536, 5, 257, 16)
-    scale = rect(800, 100, 35, 489)
+    url = "https://www.wetterzentrale.de/maps/GFSOPSC00_%s_9.png"
+    map =   rect(610, 542, 214, 158)
+    date =  rect(730, 0, 257, 16)
+    scale = rect(250, 730, 758, 40)
     newDate = (214, 14)
     dateOffset = (0, 0)
     mapOffset = (0, 14)
@@ -48,13 +45,11 @@ class WindPicture:
         if type(file) == type(""):
             file = open(file)
         self.pic = Image.open(file)
-        #self.mask = Image.open(self.maskName)
 
     def getMap(self):
-        "Iškerpa reikalingą gabalą ir užpaišo Lietuvą"
+        "Iškerpa reikalingą gabalą"
         map = self.pic.crop(self.map)
         map = map.convert("RGB")
-        #map.paste(self.mask, self.mapoffset, self.mask)
         return  map
 
     def getDate(self):
@@ -66,7 +61,6 @@ class WindPicture:
     def getFullScale(self):
         "Iškerpa skalę"
         scale = self.pic.crop(self.scale)
-        scale = scale.rotate(90)
         return scale
 
     def compose(self):
@@ -86,26 +80,22 @@ class WindPicture:
 class PrecipitationPicture(WindPicture):
     """Kritulių paveiksliuko gavimas/aprodojimas"""
 
-    url = "http://www.wetterzentrale.de/pics/Rtavn%s4.gif"
-    maskName = "crop-map-small.png"
-    map =   rect(500, 217, 140, 139)
-    mapoffset = (1, -1)
-    date =  rect(536, 5, 257, 16)
-    newDate = (142, 8)
-    scale = rect(810, 160, 30, 330)
-    canvasSize = (142, 149)
-    dateOffset = (0, 0)
-    mapOffset = (1, 9)
+    url = "https://www.wetterzentrale.de/maps/GFSOPSC00_%s_4.png"
+    #map =   rect(665, 555, 214, 158)
+    #date =  rect(730, 0, 257, 16)
+    #scale = rect(250, 730, 758, 40)
+    #newDate = (142, 8)
+    #canvasSize = (142, 149)
+    #dateOffset = (0, 0)
+    #mapOffset = (1, 9)
 
 
 class TempPicture(PrecipitationPicture):
     """Temperatūros paveiksliuko gavimas/apdorojimas"""
+    url = "https://www.wetterzentrale.de/maps/GFSOPSC00_%s_5.png"
 
 
-    url = "http://www.wetterzentrale.de/pics/Rtavn%s5.gif"
-    scale = rect(806, 130, 44, 425)
-
-hours = ["%02d" % i for i in range(0, 164, 6)]
+hours = ["%d" % i for i in range(0, 164, 6)]
 
 def generate():
     """Susiurbia ir iškarpo visus paveiksliukus"""
@@ -113,21 +103,21 @@ def generate():
     for hr in hours:
         pic = WindPicture(hr)
         pic.compose().save(os.path.join(outputdir, "Rtavn%s9.png" % hr))
-        if hr == '00':
+        if hr == '0':
             pic.getFullScale().save(os.path.join(outputdir, "scale.png"))
 
     for hr in hours:
         pic = TempPicture(hr)
         pic.compose().save(os.path.join(outputdir, "Rtavn%s5.png" % hr))
-        if hr == '00':
+        if hr == '0':
             pic.getFullScale().save(os.path.join(outputdir, "tscale.png"))
 
     for hr in hours:
-        if hr == '00':
+        if hr == '0':
             continue
         pic = PrecipitationPicture(hr)
         pic.compose().save(os.path.join(outputdir, "Rtavn%s4.png" % hr))
-        if hr == '06':
+        if hr == '6':
             pic.getFullScale().save(os.path.join(outputdir, "pscale.png"))
             # Miuleris neduoda 00, pakeičiam tuščiu
             pic.empty().save(os.path.join(outputdir, "Rtavn004.png"))
@@ -217,8 +207,8 @@ def main(args):
     extra=""
     if os.path.exists(os.path.join(outputdir, "aukst2d.png")):
         extra = '''<p><img src="aukst2d.png"
-                           alt="KOSIS istorija"
-                           title="KOSIS istorija"></p>'''
+                           alt="Eismoinfo.lt istorija"
+                           title="Eismoinfo.lt istorija"></p>'''
 
     makeIndex(filename="index.html", picfmt="Rtavn%s9.png",
               title=u"Vėjas", scale="scale.png", extra=extra)
