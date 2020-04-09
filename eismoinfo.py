@@ -26,12 +26,12 @@ class EismoInfo(dict):
     ids = {
         'aukst': 1163,
         'back': 1208,
-        'viln': 1166,
-        'viev': 308,
+        #'viln': 1166,  # No wind data
+        #'viev': 308,   # Disappeared...
         'svent': 981,
         'silute': 984,
         'klp': 1187,
-        }
+    }
 
     def __init__(self):
         super(EismoInfo, self).__init__()

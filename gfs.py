@@ -204,8 +204,7 @@ def istorijaIndex():
 
     template = PageTemplateFile(os.path.join(dirname, 'pt', 'istorija.pt'))
     index = open(os.path.join(outputdir, "istorija.html"), "w")
-    result = template({'stoteles': ['aukst', 'viev', 'back', 'viln',
-                                    'svent', 'silute', 'klp'],
+    result = template({'stoteles': ['aukst', 'back', 'svent', 'silute', 'klp'],
                        'title': 'KOSIS istorija'})
     index.write(result.encode('utf-8'))
     index.close()
